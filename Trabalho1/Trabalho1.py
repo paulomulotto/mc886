@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from gradient_descent import *
 
 
 '''Funcao que realiza a obtencao de theta por meio da Equacao Normal'''
