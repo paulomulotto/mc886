@@ -53,9 +53,9 @@ def normal_eaquation(pd_data_value):
     '''Cria um array vazio para armazenar o valor das predicts'''
     predicts = np.empty(len(y))
 
+    '''Calcula o erro e os predicts'''
     for i in range(0, len(x)):
         #print("{}          {}".format(np.sum(thetas[:] * x[i, :]), y[i]))
-        '''Calcula o erro J'''
         erro = np.sum(((thetas[:] * x[i, :]) - y[i])**2)
         predicts[i] = np.sum(thetas[:] * x[i, :])
 
@@ -76,14 +76,27 @@ def main():
                                                  'SI1': 5, 'SI2': 4, 'I1': 3, 'I2': 2, 'I3': 1},
                                      })
 
+    '''Chama a funcao normal_equation, que retorna o valor dos predicts de preco dos diamantes'''
+    teste = normal_eaquation(pd_data_value)
+
+
+
+
+
+
+
+
+
+
+
+
+
+    '''PARTE UTILIZADA SO PARA PLOTAR GRAFICOS. PODE IGNORAR'''
     '''Obtem a matriz y'''
     y = pd_data['price'].values
 
     '''Obtem a matriz x'''
     x = pd_data_value.drop(columns=['price'])['cut'].values
-
-    '''Chama a funcao normal_equation, que retorna o valor dos predicts de preco dos diamantes'''
-    teste = normal_eaquation(pd_data_value)
 
     #plt.scatter(x=x, y=teste)
     #plt.show()
