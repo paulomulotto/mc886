@@ -2,12 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ca8a61f9-5b3b-4d29-ac7c-c68992c76356" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Trabalho1.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Trabalho1.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NormalEquation.py" beforeDir="false" afterPath="$PROJECT_DIR$/NormalEquation.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Testes.py" beforeDir="false" afterPath="$PROJECT_DIR$/Testes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Trabalho1.py" beforeDir="false" afterPath="$PROJECT_DIR$/NormalEquation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/carat_x_price.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/clarity_x_price.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/color_x_price.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cut_x_price.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/depth_x_price.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/table_x_price.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/x_x_price.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/y_x_price.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/z_x_price.png" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -34,58 +40,52 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="py" value="6" />
+          <entry key="py" value="9" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Python" value="6" />
+          <entry key="Python" value="9" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="Python Console" value="128" />
           <entry key="dummy" value="14" />
-          <entry key="py" value="5096" />
+          <entry key="py" value="6552" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="PLAIN_TEXT" value="14" />
-          <entry key="Python" value="5224" />
+          <entry key="Python" value="6680" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/NormalEquation.py">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
+            <state relative-caret-position="360">
+              <caret line="79" column="4" selection-start-line="79" selection-start-column="6" selection-end-line="81" selection-end-column="43" />
               <folding>
-                <element signature="e#0#19#0" expanded="true" />
-                <marker date="1535820744833" expanded="true" signature="181:1369" ph="..." />
+                <element signature="e#128#1080#0" />
+                <marker date="1535824991722" expanded="true" signature="1398:1660" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Testes.py">
+        <entry file="file://$PROJECT_DIR$/NormalEquation.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Main.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="12" column="39" lean-forward="true" selection-start-line="12" selection-start-column="39" selection-end-line="12" selection-end-column="39" />
+            <state relative-caret-position="486">
+              <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
+              <folding>
+                <element signature="e#0#19#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -106,9 +106,9 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/Trabalho1.py" />
+        <option value="$PROJECT_DIR$/Testes.py" />
         <option value="$PROJECT_DIR$/NormalEquation.py" />
         <option value="$PROJECT_DIR$/Main.py" />
-        <option value="$PROJECT_DIR$/Testes.py" />
       </list>
     </option>
   </component>
@@ -230,7 +230,7 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.15187165" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.25454545" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -250,26 +250,29 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/Testes.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+        <state relative-caret-position="126">
+          <caret line="7" selection-start-line="7" selection-end-line="9" selection-end-column="9" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/NormalEquation.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
+        <state relative-caret-position="486">
+          <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
-            <marker date="1535820744833" expanded="true" signature="181:1369" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="12" column="39" lean-forward="true" selection-start-line="12" selection-start-column="39" selection-end-line="12" selection-end-column="39" />
+        <state relative-caret-position="360">
+          <caret line="79" column="4" selection-start-line="79" selection-start-column="6" selection-end-line="81" selection-end-column="43" />
+          <folding>
+            <element signature="e#128#1080#0" />
+            <marker date="1535824991722" expanded="true" signature="1398:1660" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>

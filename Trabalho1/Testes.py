@@ -5,8 +5,8 @@ y = np_data[:, 9]
 plt.scatter(x, y, s=10)
 plt.show()'''
 
-a = 2
-b = 3
+a = 4
+b = 5
 c = a + b
 
 print(c)
