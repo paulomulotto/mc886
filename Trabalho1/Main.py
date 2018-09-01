@@ -1,5 +1,6 @@
 from NormalEquation import *
 import itertools as it
+from GradientDescent import *
 
 
 '''Funcao que realiza as operacoes de alteracao dos dados do dataset'''
@@ -28,6 +29,10 @@ def erro(thetas, x, y):
 
     '''Calcula o erro J'''
     erro = np.sum(((x.dot(thetas)) - y)**2)/(2*len(y))
+
+    print('----------------------------------------------------------------------------------------------')
+    print('Erro: {}'.format(erro))
+    print('----------------------------------------------------------------------------------------------')
 
     return erro
 
@@ -91,16 +96,16 @@ def main():
 
     '''Obtem os thetas com a funcao de normal equation, a partir do dataset de treino'''
     thetas_normal = normal_eaquation(x_treino, y_treino)
+    thetas_gradient = gradient_descent(x_treino, y_treino, 0.5, 0.0000000000536, 100000)
 
     '''Calcula o erro (J) a partir dos thetas obtidos, e do dataset de validacao'''
 
     erro_validacao = erro(thetas_normal, x_validacao, y_validacao)
     erro_treino = erro(thetas_normal, x_treino, y_treino)
+    erro_gradient_validacao = erro(thetas_gradient, x_validacao, y_validacao)
+    erro_gradient_treino = erro(thetas_gradient, x_treino, y_treino)
 
-    print('----------------------------------------------------------------------------------------------')
-    print('Erro treino: {}'.format(erro_treino))
-    print('Erro validacao: {}'.format(erro_validacao))
-    print('----------------------------------------------------------------------------------------------')
+    
 
 '''MAIN'''
 if __name__ == '__main__':
