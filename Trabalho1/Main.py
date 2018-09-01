@@ -1,4 +1,5 @@
 from NormalEquation import *
+import itertools as it
 
 
 '''Funcao que realiza as operacoes de alteracao dos dados do dataset'''
@@ -25,13 +26,10 @@ def dados(pd_data):
 
 def erro(thetas, x, y):
 
-    erro = 0
-
     '''Calcula o erro J'''
-    for i in range(0, len(x)):
-        erro += (np.sum((thetas[:] * x[i, :])) - y[i])**2
+    erro = np.sum(((x.dot(thetas)) - y)**2)/(2*len(y))
 
-    print(erro / (2 * len(x)))
+    return erro
 
 '''Calcula os predicts e plota o grafico de comoparacao entre predict e target'''
 def predicts(thetas, x, y_target):
@@ -69,15 +67,40 @@ def main():
 
     '''NORMAL EQUATION'''
 
+    x_treino[:, 1] = x_treino[:, 1] ** 1
+    x_treino[:, 2] = x_treino[:, 2] ** 1
+    x_treino[:, 3] = x_treino[:, 3] ** 1
+    x_treino[:, 4] = x_treino[:, 4] ** 1
+    x_treino[:, 5] = x_treino[:, 5] ** 1
+    x_treino[:, 6] = x_treino[:, 6] ** 3
+    x_treino[:, 7] = x_treino[:, 7] ** 2
+    x_treino[:, 8] = x_treino[:, 8] ** 1
+    x_treino[:, 9] = x_treino[:, 9] ** 1
+    x_treino[:, 10] = x_treino[:, 10] ** 3
+
+    x_validacao[:, 1] = x_validacao[:, 1] ** 1
+    x_validacao[:, 2] = x_validacao[:, 2] ** 1
+    x_validacao[:, 3] = x_validacao[:, 3] ** 1
+    x_validacao[:, 4] = x_validacao[:, 4] ** 1
+    x_validacao[:, 5] = x_validacao[:, 5] ** 1
+    x_validacao[:, 6] = x_validacao[:, 6] ** 3
+    x_validacao[:, 7] = x_validacao[:, 7] ** 2
+    x_validacao[:, 8] = x_validacao[:, 8] ** 1
+    x_validacao[:, 9] = x_validacao[:, 9] ** 1
+    x_validacao[:, 10] = x_validacao[:, 10] ** 3
+
     '''Obtem os thetas com a funcao de normal equation, a partir do dataset de treino'''
     thetas_normal = normal_eaquation(x_treino, y_treino)
 
     '''Calcula o erro (J) a partir dos thetas obtidos, e do dataset de validacao'''
-    erro(thetas_normal, x_validacao, y_validacao)
-    erro(thetas_normal, x_treino, y_treino)
 
-    predicts(thetas_normal, x_treino, y_treino)
+    erro_validacao = erro(thetas_normal, x_validacao, y_validacao)
+    erro_treino = erro(thetas_normal, x_treino, y_treino)
 
+    print('----------------------------------------------------------------------------------------------')
+    print('Erro treino: {}'.format(erro_treino))
+    print('Erro validacao: {}'.format(erro_validacao))
+    print('----------------------------------------------------------------------------------------------')
 
 '''MAIN'''
 if __name__ == '__main__':
