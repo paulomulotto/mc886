@@ -96,7 +96,7 @@ def main():
 
     '''Obtem os thetas com a funcao de normal equation, a partir do dataset de treino'''
     thetas_normal = normal_eaquation(x_treino, y_treino)
-    thetas_gradient = gradient_descent(x_treino, y_treino, 0.5, 0.0000000000536, 100000)
+    thetas_gradient, custos = gradient_descent(x_treino, y_treino, 0.5, 0.0000000000536, 300000)
 
     '''Calcula o erro (J) a partir dos thetas obtidos, e do dataset de validacao'''
 

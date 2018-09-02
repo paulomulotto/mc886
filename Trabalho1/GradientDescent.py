@@ -36,7 +36,7 @@ def gradient_descent(x, y, criterio_convergencia, alfa, maximo_iteracoes):
     
     # Definição das constantes básicas
     #thetas = np.random.rand(x.shape[1])
-    thetas = np.zeros(x.shape[1])
+    thetas = np.random.rand(x.shape[1])
     
     
 
@@ -46,6 +46,43 @@ def gradient_descent(x, y, criterio_convergencia, alfa, maximo_iteracoes):
     custos = np.zeros(maximo_iteracoes)
 
     convergiu = False
+    while not convergiu:
+        predicao = x.dot(thetas)
+        erro = predicao - y
+        derivada = x.T.dot(erro) / m
+        thetas = thetas - alfa * derivada
+        custos[n] = calc_custo(y, x, thetas)
+
+        if n == maximo_iteracoes - 1:
+            print("Você atingiu ", maximo_iteracoes, " iterações")
+
+            plt.plot(range(len(custos)), custos)
+            # plt.ylim(2000000, 9999999)
+            # plt.xlim(0, len(custos))
+
+            plt.show()
+
+            return thetas, custos
+        if n > 0:
+            if abs(custos[n - 1] - custos[n]) < criterio_convergencia:  # convergiu (entrou minimo local)
+                convergiu = True
+                plt.plot(range(len(custos) - 2), custos[2:])
+                plt.show()
+                print("Convergiu")
+                return thetas, custos
+            if custos[n - 1] < custos[n]:  # Se não estiver convergindo, então pare (ajuste learning rate)
+                print("Ajuste seu learning rate")
+                return thetas, custos
+        n = n + 1
+
+
+
+
+
+
+
+
+    '''convergiu = False
     while not convergiu:
         predicao = x.dot(thetas)
         erro = predicao - y
@@ -74,7 +111,7 @@ def gradient_descent(x, y, criterio_convergencia, alfa, maximo_iteracoes):
             if custos[n-1] < custos[n]: #Se não estiver convergindo, então pare (ajuste learning rate)
                 print("Ajuste seu learning rate")
                 return thetas, custos
-        n = n+1
+        n = n+1'''
 
     
 
