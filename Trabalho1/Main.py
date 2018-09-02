@@ -2,6 +2,8 @@ from NormalEquation import *
 import itertools as it
 from GradientDescent import *
 from sklearn import linear_model
+from sklearn.linear_model import SGDRegressor
+from datetime import datetime
 
 '''Funcao que realiza as operacoes de alteracao dos dados do dataset'''
 def dados(pd_data):
@@ -16,14 +18,18 @@ def dados(pd_data):
     '''Adiciona a coluna x0 com valores 1 para a realizacao da multiplicacao de matrizes'''
     pd_data_value.insert(0, 'x0', 1)
 
-    '''Separa o conjunto de treino em treino e validacao'''
-    msk = np.random.rand(len(pd_data_value)) < 0.7
+    pd_data_value.to_csv("teste.csv")
 
-    treino = pd_data_value[msk]
-    treino.to_csv('treino.csv')
+    # '''Separa o conjunto de treino em treino e validacao'''
+    # msk = np.random.rand(len(pd_data_value)) < 0.7
 
-    validacao = pd_data_value[~msk]
-    validacao.to_csv('validacao.csv')
+    # treino = pd_data_value[msk]
+    # treino.to_csv('treino.csv')
+
+    # validacao = pd_data_value[~msk]
+    # validacao.to_csv('validacao.csv')
+
+
 
 def erro(thetas, x, y):
 
@@ -56,6 +62,8 @@ def main():
     '''Le o arquivo csv com os dados dos diamantes(validacao)'''
     validacao = pd.read_csv("validacao.csv")
 
+    '''Le o arquivo csv com os dados dos diamantes(teste)'''
+    teste = pd.read_csv("teste.csv")
 
     '''Obtem a matriz y (target) (treino)'''
     y_treino = treino['price'].values
@@ -69,6 +77,11 @@ def main():
     '''Obtem a matriz x (validacao)'''
     x_validacao = validacao.drop(columns=['price']).values
 
+    '''Obtem a matriz y (target) (teste)'''
+    y_teste = teste['price'].values
+
+    '''Obtem a matriz x (teste)'''
+    x_teste = teste.drop(columns=['price']).values
 
     x_treino[:, 1] = x_treino[:, 1] ** 1
     x_treino[:, 2] = x_treino[:, 2] ** 1
@@ -92,23 +105,51 @@ def main():
     x_validacao[:, 9] = x_validacao[:, 9] ** 1
     x_validacao[:, 10] = x_validacao[:, 10] ** 3
 
+    x_teste[:, 1] = x_teste[:, 1] ** 1
+    x_teste[:, 2] = x_teste[:, 2] ** 1
+    x_teste[:, 3] = x_teste[:, 3] ** 1
+    x_teste[:, 4] = x_teste[:, 4] ** 1
+    x_teste[:, 5] = x_teste[:, 5] ** 1
+    x_teste[:, 6] = x_teste[:, 6] ** 3
+    x_teste[:, 7] = x_teste[:, 7] ** 2
+    x_teste[:, 8] = x_teste[:, 8] ** 1
+    x_teste[:, 9] = x_teste[:, 9] ** 1
+    x_teste[:, 10] = x_teste[:, 10] ** 3
+
     '''Obtem os thetas com a funcao de normal equation, a partir do dataset de treino'''
+    tempo_normal_inicial = datetime.now()
     thetas_normal = normal_eaquation(x_treino, y_treino)
+    tempo_normal_final = datetime.now()
+    print("Normal Equation: " + str(tempo_normal_final - tempo_normal_inicial))
+
+    '''Obtem os thetas com a funcao de gradient descent, a partir do dataset de treino'''
+    tempo_gradient_inicial = datetime.now()
     thetas_gradient, custos = gradient_descent(x_treino, y_treino, 0.5, 0.0000000000536, 300000)
+    tempo_gradient_final = datetime.now()
+    print("Gradient Descent: " + str(tempo_gradient_final - tempo_gradient_inicial))
 
     '''Calcula o erro (J) a partir dos thetas obtidos, e do dataset de validacao'''
 
     erro_validacao = erro(thetas_normal, x_validacao, y_validacao)
     erro_treino = erro(thetas_normal, x_treino, y_treino)
+    erro_teste = erro(thetas_normal, x_teste, y_teste)
     erro_gradient_validacao = erro(thetas_gradient, x_validacao, y_validacao)
     erro_gradient_treino = erro(thetas_gradient, x_treino, y_treino)
+    erro_gradient_teste = erro(thetas_gradient, x_teste, y_teste)
+    
 
-    # Teste sklearn.linear model.SGDRegressor    
-    clf = linear_model.SGDRegressor(alpha=0.0000000000536, max_iter=100)
+    # Teste sklearn.linear model.SGDRegressor
+
+    '''Obtem os thetas com a funcao de SGDRegressor, a partir do dataset de treino'''
+    tempo_regressor_inicial = datetime.now()
+    clf = linear_model.SGDRegressor(learning_rate="constant", eta0=0.0000000000536, max_iter=300000)
     clf = clf.fit(x_treino, y_treino)
-    clf.predict(x_validacao)
+    tempo_regressor_final = datetime.now()
+    print("SGDRegressor: " + str(tempo_regressor_final - tempo_regressor_inicial))
+    #clf.predict(x_validacao)
     erro_SGD_library = erro(clf.coef_, x_validacao, y_validacao)
     erro_SGD_library = erro(clf.coef_, x_treino, y_treino)
+    erro_SGD_library = erro(clf.coef_, x_teste, y_teste)
 
 
 

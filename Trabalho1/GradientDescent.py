@@ -33,7 +33,7 @@ def gradient_descent(x, y, criterio_convergencia, alfa, maximo_iteracoes):
     m = y.shape[0]
     
     n = 0  #numero máximo de iterações
-    custos = np.zeros(maximo_iteracoes)
+    custos = np.random.randn(maximo_iteracoes)
 
 
     convergiu = False
@@ -48,17 +48,19 @@ def gradient_descent(x, y, criterio_convergencia, alfa, maximo_iteracoes):
             print("Você atingiu ", maximo_iteracoes, " iterações")
 
             plt.plot(range(len(custos)), custos)
+            plt.xlabel("Numero da Iteração")
+            plt.ylabel("Custo ( J )")
             # plt.ylim(2000000, 9999999)
             # plt.xlim(0, len(custos))
 
-            plt.show()
+            plt.savefig("Grafico Custo por iteracao.png")
 
             return thetas, custos
         if n > 0:
             if abs(custos[n - 1] - custos[n]) < criterio_convergencia:  # convergiu (entrou minimo local)
                 convergiu = True
                 plt.plot(range(len(custos) - 2), custos[2:])
-                plt.show()
+                plt.savefig("Grafico Custo por iteracao.png")
                 print("Convergiu")
                 return thetas, custos
             if custos[n - 1] < custos[n]:  # Se não estiver convergindo, então pare (ajuste learning rate)
