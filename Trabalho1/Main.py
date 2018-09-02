@@ -1,7 +1,7 @@
 from NormalEquation import *
 import itertools as it
 from GradientDescent import *
-
+from sklearn import linear_model
 
 '''Funcao que realiza as operacoes de alteracao dos dados do dataset'''
 def dados(pd_data):
@@ -70,8 +70,6 @@ def main():
     x_validacao = validacao.drop(columns=['price']).values
 
 
-    '''NORMAL EQUATION'''
-
     x_treino[:, 1] = x_treino[:, 1] ** 1
     x_treino[:, 2] = x_treino[:, 2] ** 1
     x_treino[:, 3] = x_treino[:, 3] ** 1
@@ -96,7 +94,8 @@ def main():
 
     '''Obtem os thetas com a funcao de normal equation, a partir do dataset de treino'''
     thetas_normal = normal_eaquation(x_treino, y_treino)
-    thetas_gradient = gradient_descent(x_treino, y_treino, 0.5, 0.0000000000536, 100000)
+    thetas_gradient = gradient_descent(x_treino, y_treino, 0.5, 0.0000000000536, 1000) #thetas_gradient = gradient_descent(x_treino, y_treino, 0.5, 0.0000000000536, 100000)
+
 
     '''Calcula o erro (J) a partir dos thetas obtidos, e do dataset de validacao'''
 
@@ -105,7 +104,16 @@ def main():
     erro_gradient_validacao = erro(thetas_gradient, x_validacao, y_validacao)
     erro_gradient_treino = erro(thetas_gradient, x_treino, y_treino)
 
-    
+    # Teste sklearn.linear model.SGDRegressor    
+    clf = linear_model.SGDRegressor(alpha=0.0000000000536, max_iter=100)
+    clf = clf.fit(x_treino, y_treino)
+    clf.predict(x_validacao)
+    erro_SGD_library = erro(clf.coef_, x_validacao, y_validacao)
+    erro_SGD_library = erro(clf.coef_, x_treino, y_treino)
+
+
+
+
 
 '''MAIN'''
 if __name__ == '__main__':

@@ -7,6 +7,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import numpy.random as rnd
 
 
 # Calcula J(thetas)
@@ -27,23 +28,13 @@ def calc_custo(y, x, thetas):
 
 def gradient_descent(x, y, criterio_convergencia, alfa, maximo_iteracoes):
 
-    # '''Obtem a matriz y'''
-    # y = pd_data_value['price'].values
-
-    # '''Obtem a matriz x'''
-    # x = pd_data_value.drop(columns=['price']).values
-    
-    
-    # Definição das constantes básicas
-    #thetas = np.random.rand(x.shape[1])
     thetas = np.zeros(x.shape[1])
-    
-    
 
     m = y.shape[0]
     
-    n = 0 #numero máximo de iterações
+    n = 0  #numero máximo de iterações
     custos = np.zeros(maximo_iteracoes)
+
 
     convergiu = False
     while not convergiu:
@@ -58,8 +49,8 @@ def gradient_descent(x, y, criterio_convergencia, alfa, maximo_iteracoes):
             
             
             plt.plot(range(len(custos)), custos)
-            # plt.ylim(2000000, 9999999)
-            # plt.xlim(0, len(custos))
+            plt.xlabel("Número de Iterações")
+            plt.ylabel("Custo (J)")
             
             plt.show()
             
@@ -110,22 +101,3 @@ def gradient_descent(x, y, criterio_convergencia, alfa, maximo_iteracoes):
 
         # if n == maximo_iteracoes:
         #     return thetas
-
-    
-# def main():
-
-#     '''Le o arquivo csv com os dados dos diamantes'''
-#     pd_data = pd.read_csv("treino.csv")
-
-#     '''Realiza a separacao das features cujo valor, nao sao numericos'''
-#     pd_data_value = pd.get_dummies(pd_data)
-
-#     thetas, _ = gradient_descent(pd_data_value, 0.5, 0.000000002852, 4000)
-    
-#     print(thetas)
-
-
-# '''MAIN'''
-# if __name__ == '__main__':
-
-#     main()
