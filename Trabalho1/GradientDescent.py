@@ -39,8 +39,6 @@ def gradient_descent(x, y, criterio_convergencia, alfa, maximo_iteracoes):
             plt.plot(range(len(custos)), custos)
             plt.xlabel("Numero da Iteração")
             plt.ylabel("Custo ( J )")
-            # plt.ylim(2000000, 9999999)
-            # plt.xlim(0, len(custos))
 
             plt.savefig("GraficoCustoporiteracao.png")
 
