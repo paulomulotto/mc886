@@ -20,16 +20,6 @@ def dados(pd_data):
 
     pd_data_value.to_csv("teste.csv")
 
-    # '''Separa o conjunto de treino em treino e validacao'''
-    # msk = np.random.rand(len(pd_data_value)) < 0.7
-
-    # treino = pd_data_value[msk]
-    # treino.to_csv('treino.csv')
-
-    # validacao = pd_data_value[~msk]
-    # validacao.to_csv('validacao.csv')
-
-
 
 def erro(thetas, x, y):
 
@@ -150,9 +140,6 @@ def main():
     erro_SGD_library = erro(clf.coef_, x_validacao, y_validacao)
     erro_SGD_library = erro(clf.coef_, x_treino, y_treino)
     erro_SGD_library = erro(clf.coef_, x_teste, y_teste)
-
-
-
 
 
 '''MAIN'''
