@@ -49,9 +49,18 @@ def Mini_Batch_Gradient_Descent(x, y, theta, learning_rate, iterations):
     dataSet_size = x.shape[0]
     minibatch_size = 400
 
+    # Pedict final
+    h_final = np.array([])
+
     #Itera por numero de epocas
     for i in range(0, iterations):
+
         for j in range(0, dataSet_size, minibatch_size):
+
+            #Randomiza os dados para obter os mini batches
+            # np.random.shuffle(x)
+            # np.random.shuffle(y)
+
             # Calcula as novas matrizes utilizadas para atualizar theta
             x_mini = x[j:j + minibatch_size]
             y_mini = y[j:j + minibatch_size]
@@ -62,7 +71,13 @@ def Mini_Batch_Gradient_Descent(x, y, theta, learning_rate, iterations):
             # Calcula o novo theta
             theta = theta - (learning_rate * (np.dot((h - y_mini), x_mini) / len(y)))
 
-    return h, theta
+            #Armazena somento o ultimo h calculado, que eh o mais atualizado
+            if(i == iterations - 1):
+                #Concatena o resultado final dos predicts
+                h_final = np.append(h_final, h)
+
+
+    return h_final, theta
 
 '''Funcao que realiza a regressao logistica'''
 def LogisticRegression(x, y, learning_rate, iterations):

@@ -39,14 +39,18 @@ def split_treino_validacao(x, y):
     return x_treino, y_treino, x_validacao, y_validacao
 
 '''Funcao que aplica o metodo one-vs-all para mais que duas classes'''
-def one_vs_all(x, y, learning_rate, iterations):
+def one_vs_all(x, y, learning_rate, iterations, num_classes):
 
-    #Transforma y em uma classificacao binaria
-    y_binary = np.where(y == 0, 1, 0)
+    #Array h com as predicts de cada classe para cada imagem
+    # h = np.array([])
 
-    h = LogisticRegression(x, y_binary, learning_rate, iterations)
+    for i in range(0, num_classes):
+        #Transforma y em uma classificacao binaria
+        y_binary = np.where(y == i, 1, 0)
 
-    print(h)
+        h = LogisticRegression(x, y_binary, learning_rate, iterations)
+
+    print(len(h))
 
 
 def main():
@@ -60,7 +64,8 @@ def main():
     #Obtem os dados de treino e validacao
     x_treino, y_treino, x_validacao, y_validacao = split_treino_validacao(x, y)
 
-    one_vs_all(x_treino, y_treino, 0.000001, 500)
+    #Aplica o metodo de one-vs-all
+    one_vs_all(x_treino, y_treino, 0.000001, 500, 10)
 
 if __name__ == '__main__':
     main()
