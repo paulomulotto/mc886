@@ -11,13 +11,11 @@ def SigmoidFunction(theta, x):
 
     return h
 
-'''Funcao que realiza a regressao logistica'''
-def LogisticRegression(x, y, learning_rate, iterations):
+#Atualiza theta com Batch Gradient Descent
+def Batch_Gradient_Descent(x, y, theta, learning_rate, iterations):
 
-    #Inicaliza o vetor de parametros theta
-    theta = np.zeros(x.shape[1])
 
-    #Realiza o numero de iteracoes
+    #Batch Gradient Descent
     for i in range(0, iterations):
 
         # Calcula h (predict)
@@ -26,4 +24,53 @@ def LogisticRegression(x, y, learning_rate, iterations):
         # Calcula o novo theta
         theta = theta - (learning_rate * (np.dot((h - y), x) / len(y)))
 
-    return theta
+    return h, theta
+
+
+# Atualiza theta com Stochastic Gradient Descent
+def Stochastic_Gradient_Descent(x, y, theta, learning_rate, iterations):
+
+    # Stochastic Gradient Descent
+    for i in range(0, x.shape[0]):
+
+        #Calcula h (predict)
+        h = SigmoidFunction(theta, x[i])
+
+        # Calcula o novo theta
+        theta = theta - (learning_rate * (np.dot((h - y[i]), x[i]) / len(y)))
+
+    return h, theta
+
+
+# Atualiza theta com Mini-Batch Gradient Descent
+def Mini_Batch_Gradient_Descent(x, y, theta, learning_rate, iterations):
+
+    # Mini-batch Gradient Descent
+    dataSet_size = x.shape[0]
+    minibatch_size = 400
+
+    #Itera por numero de epocas
+    for i in range(0, iterations):
+        for j in range(0, dataSet_size, minibatch_size):
+            # Calcula as novas matrizes utilizadas para atualizar theta
+            x_mini = x[j:j + minibatch_size]
+            y_mini = y[j:j + minibatch_size]
+
+            # Calcula h (predict)
+            h = SigmoidFunction(theta, x_mini)
+
+            # Calcula o novo theta
+            theta = theta - (learning_rate * (np.dot((h - y_mini), x_mini) / len(y)))
+
+    return h, theta
+
+'''Funcao que realiza a regressao logistica'''
+def LogisticRegression(x, y, learning_rate, iterations):
+
+    #Inicaliza o vetor de parametros theta
+    theta = np.zeros(x.shape[1])
+
+    #Obtem theta e h por meio de Mini-Batch Gradient Descent
+    h, theta = Mini_Batch_Gradient_Descent(x, y, theta, learning_rate, 5)
+
+    return h

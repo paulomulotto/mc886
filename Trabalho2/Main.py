@@ -38,6 +38,17 @@ def split_treino_validacao(x, y):
 
     return x_treino, y_treino, x_validacao, y_validacao
 
+'''Funcao que aplica o metodo one-vs-all para mais que duas classes'''
+def one_vs_all(x, y, learning_rate, iterations):
+
+    #Transforma y em uma classificacao binaria
+    y_binary = np.where(y == 0, 1, 0)
+
+    h = LogisticRegression(x, y_binary, learning_rate, iterations)
+
+    print(h)
+
+
 def main():
 
     #Caminho para o arquivo csv com os dados do problema
@@ -49,9 +60,7 @@ def main():
     #Obtem os dados de treino e validacao
     x_treino, y_treino, x_validacao, y_validacao = split_treino_validacao(x, y)
 
-    theta = LogisticRegression(x_treino, y_treino, 0.1, 100)
-
-    print(theta)
+    one_vs_all(x_treino, y_treino, 0.000001, 500)
 
 if __name__ == '__main__':
     main()
