@@ -52,14 +52,16 @@ def Mini_Batch_Gradient_Descent(x, y, theta, learning_rate, iterations):
     # Pedict final
     h_final = np.array([])
 
+    # Randomiza os dados para obter os mini batches
+    x = np.insert(x, obj=0, values=y, axis=1)
+    np.random.shuffle(x)
+    y = x[:,0]
+    x = x[:,1:]
+
     #Itera por numero de epocas
     for i in range(0, iterations):
 
         for j in range(0, dataSet_size, minibatch_size):
-
-            #Randomiza os dados para obter os mini batches
-            # np.random.shuffle(x)
-            # np.random.shuffle(y)
 
             # Calcula as novas matrizes utilizadas para atualizar theta
             x_mini = x[j:j + minibatch_size]
@@ -86,6 +88,6 @@ def LogisticRegression(x, y, learning_rate, iterations):
     theta = np.zeros(x.shape[1])
 
     #Obtem theta e h por meio de Mini-Batch Gradient Descent
-    h, theta = Mini_Batch_Gradient_Descent(x, y, theta, learning_rate, 5)
+    h, theta = Mini_Batch_Gradient_Descent(x, y, theta, learning_rate, iterations)
 
-    return h
+    return h, theta

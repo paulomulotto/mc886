@@ -42,16 +42,36 @@ def split_treino_validacao(x, y):
 def one_vs_all(x, y, learning_rate, iterations, num_classes):
 
     #Array h com as predicts de cada classe para cada imagem
-    # h = np.array([])
+    h = []
 
+    #Array com os thetas (modelos)
+    thetas = []
+
+    #Calcula os predicts para cada classe
     for i in range(0, num_classes):
         #Transforma y em uma classificacao binaria
         y_binary = np.where(y == i, 1, 0)
 
-        h = LogisticRegression(x, y_binary, learning_rate, iterations)
+        #Armazena um array com todos os hs e thetas retornados
+        h_aux, thetas_aux = LogisticRegression(x, y_binary, learning_rate, iterations)
 
-    print(len(h))
+        h.append(h_aux)
+        thetas.append(thetas_aux)
 
+    h = np.array(h)
+    thetas = np.array(thetas)
+
+    #Contador de acertos
+    contador = 0
+
+    #Calcula o numero de predicts corretos
+    for j in range(0, len(h.T)):
+
+        if(y[j] == np.argmax(h.T[j])):
+
+            contador += 1
+
+    return h.T, thetas, contador
 
 def main():
 
@@ -65,7 +85,9 @@ def main():
     x_treino, y_treino, x_validacao, y_validacao = split_treino_validacao(x, y)
 
     #Aplica o metodo de one-vs-all
-    one_vs_all(x_treino, y_treino, 0.000001, 500, 10)
+    h, thetas, acertos = one_vs_all(x=x_treino, y=y_treino, learning_rate=0.001, iterations=100, num_classes=10)
+
+    print('Acuracia: {0:.2f}%'.format((acertos / len(y_treino)) * 100))
 
 if __name__ == '__main__':
     main()
