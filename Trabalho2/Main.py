@@ -1,5 +1,6 @@
 import pandas as pd
 from LogisticRegression import *
+from SoftmaxRegression import *
 
 def imprime_dados(x, y, x_treino, y_treino, x_validacao, y_validacao):
     print('x: [{}][{}]'.format(len(x), len(x[0])))
@@ -61,17 +62,18 @@ def one_vs_all(x, y, learning_rate, iterations, num_classes):
     h = np.array(h)
     thetas = np.array(thetas)
 
-    #Contador de acertos
-    contador = 0
+    #Obtem os predicts do metodo
+    predicts = np.argmax(h.T, axis=1)
 
-    #Calcula o numero de predicts corretos
-    for j in range(0, len(h.T)):
-
-        if(y[j] == np.argmax(h.T[j])):
-
-            contador += 1
+    # Contador de acertos
+    contador = np.sum(predicts == y)
 
     return h.T, thetas, contador
+
+'''Funcao que aplica o metodo softmax regression'''
+def softmax_regression():
+    return
+
 
 def main():
 
@@ -85,9 +87,13 @@ def main():
     x_treino, y_treino, x_validacao, y_validacao = split_treino_validacao(x, y)
 
     #Aplica o metodo de one-vs-all
-    h, thetas, acertos = one_vs_all(x=x_treino, y=y_treino, learning_rate=0.001, iterations=100, num_classes=10)
+    # h, thetas, acertos = one_vs_all(x=x_treino, y=y_treino, learning_rate=0.001, iterations=5, num_classes=10)
+    # print('Acuracia: {0:.2f}%'.format((acertos / len(y_treino)) * 100))
 
-    print('Acuracia: {0:.2f}%'.format((acertos / len(y_treino)) * 100))
+    #Aplica o metodo softmax regression
+    SoftmaxRegression(x=x_treino, y=y_treino, learning_rate=0.01, iterations=5, num_classes=10)
+
+
 
 if __name__ == '__main__':
     main()

@@ -53,10 +53,10 @@ def Mini_Batch_Gradient_Descent(x, y, theta, learning_rate, iterations):
     h_final = np.array([])
 
     # Randomiza os dados para obter os mini batches
-    x = np.insert(x, obj=0, values=y, axis=1)
-    np.random.shuffle(x)
-    y = x[:,0]
-    x = x[:,1:]
+    # x = np.insert(x, obj=0, values=y, axis=1)
+    # np.random.shuffle(x)
+    # y = x[:,0]
+    # x = x[:,1:]
 
     #Itera por numero de epocas
     for i in range(0, iterations):
