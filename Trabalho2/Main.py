@@ -54,7 +54,7 @@ def one_vs_all(x, y, learning_rate, iterations, num_classes):
         y_binary = np.where(y == i, 1, 0)
 
         #Armazena um array com todos os hs e thetas retornados
-        h_aux, thetas_aux = LogisticRegression(x, y_binary, learning_rate, iterations)
+        h_aux, thetas_aux = LogisticRegression(x=x, y=y_binary, learning_rate=learning_rate, iterations=iterations)
 
         h.append(h_aux)
         thetas.append(thetas_aux)
@@ -71,8 +71,28 @@ def one_vs_all(x, y, learning_rate, iterations, num_classes):
     return h.T, thetas, contador
 
 '''Funcao que aplica o metodo softmax regression'''
-def softmax_regression():
-    return
+def softmax_regression(x, y, learning_rate, iterations, num_classes):
+
+    #Array com todos os targets y para cada classe
+    y_final = []
+
+    # Transforma y em uma classificacao binaria
+    for i in range(0, num_classes):
+
+        y_binary = np.where(y == i, 1, 0)
+        y_final.append(y_binary)
+
+    y_final = np.array(y_final).T
+
+    h, thetas = SoftmaxRegression(x=x, y=y_final, learning_rate=learning_rate, iterations=iterations, num_classes=num_classes)
+
+    # Obtem os predicts do metodo
+    predicts = np.argmax(h, axis=1)
+
+    #Contador de acertos
+    contador = np.sum(predicts == y)
+
+    return h, thetas, contador
 
 
 def main():
@@ -87,13 +107,12 @@ def main():
     x_treino, y_treino, x_validacao, y_validacao = split_treino_validacao(x, y)
 
     #Aplica o metodo de one-vs-all
-    # h, thetas, acertos = one_vs_all(x=x_treino, y=y_treino, learning_rate=0.001, iterations=5, num_classes=10)
-    # print('Acuracia: {0:.2f}%'.format((acertos / len(y_treino)) * 100))
+    h, thetas, acertos = one_vs_all(x=x_treino, y=y_treino, learning_rate=0.001, iterations=5, num_classes=10)
+    print('Acuracia(one-vs-all): {0:.2f}%'.format((acertos / len(y_treino)) * 100))
 
     #Aplica o metodo softmax regression
-    SoftmaxRegression(x=x_treino, y=y_treino, learning_rate=0.01, iterations=5, num_classes=10)
-
-
+    h, thetas, acertos = softmax_regression(x=x_treino, y=y_treino, learning_rate=0.001, iterations=5, num_classes=10)
+    print('Acuracia(Softmax): {0:.2f}%'.format((acertos / len(y_treino)) * 100))
 
 if __name__ == '__main__':
     main()
