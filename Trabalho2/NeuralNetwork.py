@@ -40,8 +40,10 @@ def OneHiddenLayer(x, y, num_neurons, num_classes):
     #Cria a matriz com os thetas para a camada de output
     theta_output = np.random.rand(first_layer.shape[1], num_classes)
 
-    #Aplica Softmax function para normalizar os predicts
-    output_layer = SoftMax_Prediction(first_layer, theta_output)
+    # #Aplica Softmax function para normalizar os predicts
+    # output_layer = SoftMax_Prediction(first_layer, theta_output)
+
+    output_layer = SigmoidFunction(theta_output, first_layer)
 
     return output_layer, theta_hidden, theta_output
 
@@ -70,6 +72,8 @@ def TwoHiddenLayers(x, y, num_neurons, num_classes):
     theta_output = np.random.rand(second_layer.shape[1], num_classes)
 
     #Aplica Softmax function para normalizar os predicts
-    output_layer = SoftMax_Prediction(second_layer, theta_output)
+    # output_layer = SoftMax_Prediction(second_layer, theta_output)
+
+    output_layer = SigmoidFunction(theta_output, second_layer)
 
     return output_layer, fst_theta_hidden, snd_theta_hidden, theta_output

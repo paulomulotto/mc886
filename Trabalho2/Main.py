@@ -125,12 +125,13 @@ def main():
     # h, theta_hidden, theta_output = OneHiddenLayer(x=x_treino, y=y_treino, num_neurons=400, num_classes=10)
 
     #Aplica a rede neural com 2 camadas escondidas
-    h, fst_theta_hidden, snd_theta_hidden, theta_output = TwoHiddenLayers(x=x_treino, y=y_treino, num_neurons=400, num_classes=10)
+    # h, fst_theta_hidden, snd_theta_hidden, theta_output = TwoHiddenLayers(x=x_treino, y=y_treino, num_neurons=400, num_classes=10)
 
-    print(h.shape)
-    print(fst_theta_hidden.shape)
-    print(snd_theta_hidden.shape)
-    print(theta_output.shape)
+    # print(h.shape)
+    # print(theta_hidden.shape)
+    # print(fst_theta_hidden.shape)
+    # print(snd_theta_hidden.shape)
+    # print(theta_output.shape)
 
 if __name__ == '__main__':
     main()
