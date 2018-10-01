@@ -11,38 +11,8 @@ def SigmoidFunction(theta, x):
 
     return h
 
-#Atualiza theta com Batch Gradient Descent
-def Batch_Gradient_Descent(x, y, theta, learning_rate, iterations):
 
-
-    #Batch Gradient Descent
-    for i in range(0, iterations):
-
-        # Calcula h (predict)
-        h = SigmoidFunction(theta, x)
-
-        # Calcula o novo theta
-        theta = theta - (learning_rate * (np.dot((h - y), x) / len(y)))
-
-    return h, theta
-
-
-# Atualiza theta com Stochastic Gradient Descent
-def Stochastic_Gradient_Descent(x, y, theta, learning_rate, iterations):
-
-    # Stochastic Gradient Descent
-    for i in range(0, x.shape[0]):
-
-        #Calcula h (predict)
-        h = SigmoidFunction(theta, x[i])
-
-        # Calcula o novo theta
-        theta = theta - (learning_rate * (np.dot((h - y[i]), x[i]) / len(y)))
-
-    return h, theta
-
-
-# Atualiza theta com Mini-Batch Gradient Descent
+# Atualiza thetas com Mini-Batch Gradient Descent
 def Mini_Batch_Gradient_Descent(x, y, theta, learning_rate, iterations):
 
     # Mini-batch Gradient Descent

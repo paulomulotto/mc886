@@ -1,6 +1,7 @@
 import pandas as pd
 from LogisticRegression import *
 from SoftmaxRegression import *
+from NeuralNetwork import *
 
 def imprime_dados(x, y, x_treino, y_treino, x_validacao, y_validacao):
     print('x: [{}][{}]'.format(len(x), len(x[0])))
@@ -19,9 +20,6 @@ def le_dados(name):
     #Obtem a matriz x das features e y dos targets
     y = data['label'].values
     x = data.drop(columns=['label']).values
-
-    #Adiciona a coluna x0 a matriz x
-    x = np.insert(x, obj=0, values=0, axis=1)
 
     return x, y
 
@@ -107,12 +105,32 @@ def main():
     x_treino, y_treino, x_validacao, y_validacao = split_treino_validacao(x, y)
 
     #Aplica o metodo de one-vs-all
-    h, thetas, acertos = one_vs_all(x=x_treino, y=y_treino, learning_rate=0.001, iterations=5, num_classes=10)
-    print('Acuracia(one-vs-all): {0:.2f}%'.format((acertos / len(y_treino)) * 100))
 
-    #Aplica o metodo softmax regression
-    h, thetas, acertos = softmax_regression(x=x_treino, y=y_treino, learning_rate=0.001, iterations=5, num_classes=10)
-    print('Acuracia(Softmax): {0:.2f}%'.format((acertos / len(y_treino)) * 100))
+    #Adiciona a coluna x0 (bias) a matriz x
+    # x_treino = np.insert(x_treino, obj=0, values=0, axis=1)
+    # x_validacao = np.insert(x_validacao, obj=0, values=0, axis=1)
+
+    # h, thetas, acertos = one_vs_all(x=x_treino, y=y_treino, learning_rate=0.001, iterations=5, num_classes=10)
+    # print('Acuracia(one-vs-all): {0:.2f}%'.format((acertos / len(y_treino)) * 100))
+    #
+    # #Aplica o metodo softmax regression
+    # h, thetas, acertos = softmax_regression(x=x_treino, y=y_treino, learning_rate=0.001, iterations=5, num_classes=10)
+    # print('Acuracia(Softmax): {0:.2f}%'.format((acertos / len(y_treino)) * 100))
+
+    # Adiciona a coluna x0 (bias) a matriz x
+    x_treino = np.insert(x_treino, obj=0, values=1, axis=1)
+    x_validacao = np.insert(x_validacao, obj=0, values=1, axis=1)
+
+    #Aplica a rede neural com 1 camda escondida
+    # h, theta_hidden, theta_output = OneHiddenLayer(x=x_treino, y=y_treino, num_neurons=400, num_classes=10)
+
+    #Aplica a rede neural com 2 camadas escondidas
+    h, fst_theta_hidden, snd_theta_hidden, theta_output = TwoHiddenLayers(x=x_treino, y=y_treino, num_neurons=400, num_classes=10)
+
+    print(h.shape)
+    print(fst_theta_hidden.shape)
+    print(snd_theta_hidden.shape)
+    print(theta_output.shape)
 
 if __name__ == '__main__':
     main()
