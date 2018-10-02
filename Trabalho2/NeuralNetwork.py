@@ -37,7 +37,7 @@ def OneHiddenLayer(x, y, num_neurons, num_classes, iterations, learning_rate):
 
     # Mini-batch Gradient Descent
     dataSet_size = x.shape[0]
-    minibatch_size = 400
+    minibatch_size = 1
 
     # Pedict final
     h_final = np.array([])
@@ -45,7 +45,10 @@ def OneHiddenLayer(x, y, num_neurons, num_classes, iterations, learning_rate):
     # Itera por numero de epocas
     for i in range(0, iterations):
 
+        print("Épocas: ", i)
+
         for j in range(0, dataSet_size, minibatch_size):
+        # for j in range(0, dataSet_size, minibatch_size):
 
             # Calcula as novas matrizes utilizadas para atualizar theta
             x_mini = x[j:j + minibatch_size]
@@ -58,12 +61,12 @@ def OneHiddenLayer(x, y, num_neurons, num_classes, iterations, learning_rate):
             first_layer = np.insert(first_layer, obj=0, values=1, axis=1)
 
             # #Aplica Softmax function para normalizar os predicts
-            # output_layer = SoftMax_Prediction(first_layer, theta_output)
-
             output_layer = SigmoidFunction(theta_output, first_layer)
+            #output_layer = SoftMax_Prediction(first_layer, theta_output)
 
             # Delta output
-            delta_output = np.multiply((-(y_mini - output_layer)), output_layer * (1 - output_layer))
+            # delta_output = np.multiply((-(y_mini - output_layer)), output_layer * (1 - output_layer))
+            delta_output = (output_layer - y_mini)
 
             # Calcula delta da primeira camada escondida
             delta_hidden = np.multiply((first_layer * (1 - first_layer)), np.dot(delta_output, theta_output.T))
@@ -76,16 +79,6 @@ def OneHiddenLayer(x, y, num_neurons, num_classes, iterations, learning_rate):
 
             # Calcula o erro do gradient descent da primeira camada escondida, para a camada de input
             error = np.dot(delta_hidden.T, x_mini)
-
-            # print('output_layer: ', output_layer.shape)
-            # print('theta_output: ', theta_output.shape)
-            # print('y: ', y.shape)
-            # print('delta_output', delta_output.shape)
-            # print('delta_hidden: ', delta_hidden.shape)
-            # print('theta_hidden: ', theta_hidden.shape)
-            # print('first_layer: ', first_layer.shape)
-            # print('error1: ', error1.shape)
-            # print('error: ', error.shape)
 
             # Atualiza o theta da primeira camada escondida para a camada de output
             theta_output = theta_output - (learning_rate * error1.T)
@@ -103,16 +96,16 @@ def OneHiddenLayer(x, y, num_neurons, num_classes, iterations, learning_rate):
             # Retira o bias, que sera adionado novamente apos o temrino dessa iteracao, para evitar acumulo de bias
             first_layer = np.delete(first_layer, axis=1, obj=0)
 
-
-    # print('output_layer: ', output_layer.shape)
-    # print('theta_output: ', theta_output.shape)
-    # print('y: ', y.shape)
-    # print('delta_output', delta_output.shape)
-    # print('delta_hidden: ', delta_hidden.shape)
-    # print('theta_hidden: ', theta_hidden.shape)
-    # print('first_layer: ', first_layer.shape)
-    # print('error1: ', error1.shape)
-    # print('error: ', error.shape)
+        #print('delta_output', delta_output)
+    # # print('output_layer: ', output_layer.shape)
+    # # print('theta_output: ', theta_output.shape)
+    # # print('y: ', y.shape)
+    # # print('delta_output', delta_output.shape)
+    # # print('delta_hidden: ', delta_hidden.shape)
+    # # print('theta_hidden: ', theta_hidden.shape)
+    # # print('first_layer: ', first_layer.shape)
+    # # print('error1: ', error1.shape)
+    # # print('error: ', error.shape)
 
     return h_final, theta_hidden, theta_output
 
@@ -139,6 +132,7 @@ def TwoHiddenLayers(x, y, num_neurons, num_classes, iterations, learning_rate):
     # Itera por numero de epocas
     for i in range(0, iterations):
 
+        print("Épocas: ", i)
         for j in range(0, dataSet_size, minibatch_size):
 
             # Calcula as novas matrizes utilizadas para atualizar theta
