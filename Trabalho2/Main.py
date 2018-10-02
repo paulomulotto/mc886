@@ -92,6 +92,47 @@ def softmax_regression(x, y, learning_rate, iterations, num_classes):
 
     return h, thetas, contador
 
+'''Funcao que aplica a rede neural de uma camada escondida'''
+def one_hidden_layer(x, y, num_neurons, num_classes):
+
+    # Array com todos os targets y para cada classe
+    y_final = []
+
+    # Transforma y em uma classificacao binaria
+    for i in range(0, num_classes):
+        y_binary = np.where(y == i, 1, 0)
+        y_final.append(y_binary)
+
+    y_final = np.array(y_final).T
+
+
+    #Aplica a rede neural com 1 camda escondida
+    h, theta_hidden, theta_output = OneHiddenLayer(x=x, y=y_final, num_neurons=num_neurons, num_classes=num_classes)
+
+    # print(h.shape)
+    # print(theta_hidden.shape)
+    # print(theta_output.shape)
+
+'''Funcao que aplica a rede neural de uma camada escondida'''
+def two_hidden_layer(x, y, num_neurons, num_classes):
+
+    # Array com todos os targets y para cada classe
+    y_final = []
+
+    # Transforma y em uma classificacao binaria
+    for i in range(0, num_classes):
+        y_binary = np.where(y == i, 1, 0)
+        y_final.append(y_binary)
+
+    y_final = np.array(y_final).T
+
+
+    #Aplica a rede neural com 1 camda escondida
+    h, fst_theta_hidden, snd_theta_hidden, theta_output = TwoHiddenLayers(x=x, y=y_final, num_neurons=num_neurons, num_classes=num_classes)
+
+    # print(h.shape)
+    # print(theta_hidden.shape)
+    # print(theta_output.shape)
 
 def main():
 
@@ -121,11 +162,10 @@ def main():
     x_treino = np.insert(x_treino, obj=0, values=1, axis=1)
     x_validacao = np.insert(x_validacao, obj=0, values=1, axis=1)
 
-    #Aplica a rede neural com 1 camda escondida
-    # h, theta_hidden, theta_output = OneHiddenLayer(x=x_treino, y=y_treino, num_neurons=400, num_classes=10)
+    one_hidden_layer(x=x_treino, y=y_treino, num_neurons=400, num_classes=10)
 
     #Aplica a rede neural com 2 camadas escondidas
-    # h, fst_theta_hidden, snd_theta_hidden, theta_output = TwoHiddenLayers(x=x_treino, y=y_treino, num_neurons=400, num_classes=10)
+    #two_hidden_layer(x=x_treino, y=y_treino, num_neurons=400, num_classes=10)
 
     # print(h.shape)
     # print(theta_hidden.shape)
