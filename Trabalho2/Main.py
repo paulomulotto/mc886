@@ -93,7 +93,7 @@ def softmax_regression(x, y, learning_rate, iterations, num_classes):
     return h, thetas, contador
 
 '''Funcao que aplica a rede neural de uma camada escondida'''
-def one_hidden_layer(x, y, num_neurons, num_classes):
+def one_hidden_layer(x, y, num_neurons, num_classes, iterations, learning_rate):
 
     # Array com todos os targets y para cada classe
     y_final = []
@@ -107,14 +107,23 @@ def one_hidden_layer(x, y, num_neurons, num_classes):
 
 
     #Aplica a rede neural com 1 camda escondida
-    h, theta_hidden, theta_output = OneHiddenLayer(x=x, y=y_final, num_neurons=num_neurons, num_classes=num_classes)
+    h, theta_hidden, theta_output = OneHiddenLayer(x=x, y=y_final, num_neurons=num_neurons,
+                                                   num_classes=num_classes, iterations=iterations, learning_rate=learning_rate)
 
-    # print(h.shape)
+    # Obtem os predicts do metodo
+    predicts = np.argmax(h, axis=1)
+
+    # Contador de acertos
+    contador = np.sum(predicts == y)
+
+    #print(h.shape)
     # print(theta_hidden.shape)
     # print(theta_output.shape)
 
+    return contador, theta_hidden, theta_output
+
 '''Funcao que aplica a rede neural de uma camada escondida'''
-def two_hidden_layer(x, y, num_neurons, num_classes):
+def two_hidden_layer(x, y, num_neurons, num_classes, iterations, learning_rate):
 
     # Array com todos os targets y para cada classe
     y_final = []
@@ -126,10 +135,17 @@ def two_hidden_layer(x, y, num_neurons, num_classes):
 
     y_final = np.array(y_final).T
 
-
     #Aplica a rede neural com 1 camda escondida
-    h, fst_theta_hidden, snd_theta_hidden, theta_output = TwoHiddenLayers(x=x, y=y_final, num_neurons=num_neurons, num_classes=num_classes)
+    h, fst_theta_hidden, snd_theta_hidden, theta_output = TwoHiddenLayers(x=x, y=y_final, num_neurons=num_neurons,
+                                                                          num_classes=num_classes, iterations=iterations,
+                                                                          learning_rate=learning_rate)
+    # Obtem os predicts do metodo
+    predicts = np.argmax(h, axis=1)
 
+    # Contador de acertos
+    contador = np.sum(predicts == y)
+
+    return contador, fst_theta_hidden, snd_theta_hidden, theta_output
     # print(h.shape)
     # print(theta_hidden.shape)
     # print(theta_output.shape)
@@ -162,16 +178,14 @@ def main():
     x_treino = np.insert(x_treino, obj=0, values=1, axis=1)
     x_validacao = np.insert(x_validacao, obj=0, values=1, axis=1)
 
-    one_hidden_layer(x=x_treino, y=y_treino, num_neurons=400, num_classes=10)
+    # Aplica a rede neural com 1 camada escondida
+    acertos, theta_hidden, theta_output = one_hidden_layer(x=x_treino, y=y_treino, num_neurons=600, num_classes=10, iterations=300, learning_rate=0.00001)
+    print('Acuracia(Rede neural - 1 camada escondidas): {0:.2f}%'.format((acertos / len(y_treino)) * 100))
 
     #Aplica a rede neural com 2 camadas escondidas
-    #two_hidden_layer(x=x_treino, y=y_treino, num_neurons=400, num_classes=10)
+    # acertos, fst_theta_hidden, snd_theta_hidden, theta_output = two_hidden_layer(x=x_treino, y=y_treino, num_neurons=400, num_classes=10, iterations=5, learning_rate=0.01)
+    # print('Acuracia(Rede neural - 2 camadas escondidas): {0:.2f}%'.format((acertos / len(y_treino)) * 100))
 
-    # print(h.shape)
-    # print(theta_hidden.shape)
-    # print(fst_theta_hidden.shape)
-    # print(snd_theta_hidden.shape)
-    # print(theta_output.shape)
 
 if __name__ == '__main__':
     main()
