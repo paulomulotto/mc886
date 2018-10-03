@@ -81,7 +81,7 @@ def softmax_regression(x, y, learning_rate, iterations, num_classes):
     return h, thetas
 
 '''Funcao que aplica a rede neural de uma camada escondida'''
-def one_hidden_layer(x, y, num_neurons, num_classes, iterations, learning_rate):
+def one_hidden_layer(x, y, num_neurons, num_classes, iterations, learning_rate, activation_function):
 
     # Array com todos os targets y para cada classe
     y_final = []
@@ -96,7 +96,8 @@ def one_hidden_layer(x, y, num_neurons, num_classes, iterations, learning_rate):
 
     #Aplica a rede neural com 1 camda escondida
     h, theta_hidden, theta_output = OneHiddenLayer(x=x, y=y_final, num_neurons=num_neurons,
-                                                   num_classes=num_classes, iterations=iterations, learning_rate=learning_rate)
+                                                   num_classes=num_classes, iterations=iterations,
+                                                   learning_rate=learning_rate, activation_function=activation_function)
 
     # Obtem os predicts do metodo
     predicts = np.argmax(h, axis=1)
@@ -111,7 +112,7 @@ def one_hidden_layer(x, y, num_neurons, num_classes, iterations, learning_rate):
     return contador, theta_hidden, theta_output
 
 '''Funcao que aplica a rede neural de uma camada escondida'''
-def two_hidden_layer(x, y, num_neurons, num_classes, iterations, learning_rate):
+def two_hidden_layer(x, y, num_neurons, num_classes, iterations, learning_rate, activation_function):
 
     # Array com todos os targets y para cada classe
     y_final = []
@@ -126,7 +127,8 @@ def two_hidden_layer(x, y, num_neurons, num_classes, iterations, learning_rate):
     #Aplica a rede neural com 1 camda escondida
     h, fst_theta_hidden, snd_theta_hidden, theta_output = TwoHiddenLayers(x=x, y=y_final, num_neurons=num_neurons,
                                                                           num_classes=num_classes, iterations=iterations,
-                                                                          learning_rate=learning_rate)
+                                                                          learning_rate=learning_rate,
+                                                                          activation_function=activation_function)
     # Obtem os predicts do metodo
     predicts = np.argmax(h, axis=1)
 
@@ -153,33 +155,46 @@ def calcula_acuracia_logistica(x, y, thetas, metodo):
 
 
 '''Calcula a acuracia das redes neurais'''
-def calcula_acuracia_rede_neural(x, y, fst_theta_hidden, snd_theta_hidden, theta_output, metodo, camadas):
+def calcula_acuracia_rede_neural(x, y, fst_theta_hidden, snd_theta_hidden, theta_output, metodo, camadas,
+                                 activation_function):
 
     if(camadas == 1):
 
-        # Calcula a primeira camada de neuronios
+        # Calcula a primeira camada de neuronios (de acordo com a funcao de ativacao)
+        if (activation_function == 1):
 
-        '''Sigmoid'''
-        fst_hidden = SigmoidFunction(x, fst_theta_hidden)
+            '''Sigmoid'''
+            fst_hidden = SigmoidFunction(x, fst_theta_hidden)
 
-        '''Tanh'''
-        # fst_hidden = Tanh(x, fst_theta_hidden)
+        elif (activation_function == 2):
 
-        '''ReLu'''
-        # fst_hidden = ReLu(x, fst_theta_hidden)
+            '''Tanh'''
+            fst_hidden = Tanh(x, fst_theta_hidden)
+
+        elif (activation_function == 3):
+
+            '''ReLu'''
+            fst_hidden = ReLu(x, fst_theta_hidden)
 
         fst_hidden = np.insert(fst_hidden, obj=0, values=1, axis=1)
 
-        # Calcula a camada de output
+        # Calcula a camada de output (de acordo com a funcao de ativacao)
+        if (activation_function == 1):
 
-        '''Sigmoid'''
-        output = SigmoidFunction(fst_hidden, theta_output)
+            '''Sigmoid'''
+            output = SigmoidFunction(fst_hidden, theta_output)
 
-        '''Tanh'''
-        # output = Tanh(fst_hidden, theta_output)
 
-        '''ReLu'''
-        # output = ReLu(fst_hidden, theta_output)
+        elif (activation_function == 2):
+
+            '''Tanh'''
+            output = Tanh(fst_hidden, theta_output)
+
+        elif (activation_function == 3):
+
+            '''ReLu'''
+            output = ReLu(fst_hidden, theta_output)
+
 
         # Obtem os predicts para as classes
         predicts = np.argmax(output, axis=1)
@@ -189,42 +204,57 @@ def calcula_acuracia_rede_neural(x, y, fst_theta_hidden, snd_theta_hidden, theta
 
     else:
 
-        #Calcula a primeira camada de neuronios
+        #Calcula a primeira camada de neuronios (de acordo com a funcao de ativacao)
+        if (activation_function == 1):
 
-        '''Sigmoid'''
-        fst_hidden = SigmoidFunction(x, fst_theta_hidden)
+            '''Sigmoid'''
+            fst_hidden = SigmoidFunction(x, fst_theta_hidden)
 
-        '''Tanh'''
-        # fst_hidden = Tanh(x, fst_theta_hidden)
+        elif (activation_function == 2):
 
-        '''ReLu'''
-        # fst_hidden = ReLu(x, fst_theta_hidden)
+            '''Tanh'''
+            fst_hidden = Tanh(x, fst_theta_hidden)
+
+        elif (activation_function == 3):
+
+            '''ReLu'''
+            fst_hidden = ReLu(x, fst_theta_hidden)
 
         fst_hidden = np.insert(fst_hidden, obj=0, values=1, axis=1)
 
-        #Calcula a segunda camada de neuronios
+        #Calcula a segunda camada de neuronios (de acordo com a funcao de ativacao)
+        if (activation_function == 1):
 
-        '''Sigmoid'''
-        snd_hidden = SigmoidFunction(fst_hidden, snd_theta_hidden)
+            '''Sigmoid'''
+            snd_hidden = SigmoidFunction(fst_hidden, snd_theta_hidden)
 
-        '''Tanh'''
-        # snd_hidden = Tanh(fst_hidden, snd_theta_hidden)
+        elif (activation_function == 2):
 
-        '''ReLu'''
-        # snd_hidden = ReLu(fst_hidden, snd_theta_hidden)
+            '''Tanh'''
+            snd_hidden = Tanh(fst_hidden, snd_theta_hidden)
+
+        elif (activation_function == 3):
+
+            '''ReLu'''
+            snd_hidden = ReLu(fst_hidden, snd_theta_hidden)
 
         snd_hidden = np.insert(snd_hidden, obj=0, values=1, axis=1)
 
-        #Calcula a camda de output
+        #Calcula a camda de output (de acordo com a funcao de ativacao)
+        if (activation_function == 1):
 
-        '''Sigmoid'''
-        output = SigmoidFunction(snd_hidden, theta_output)
+            '''Sigmoid'''
+            output = SigmoidFunction(snd_hidden, theta_output)
 
-        '''Tanh'''
-        # output = Tanh(snd_hidden, theta_output)
+        elif (activation_function == 2):
 
-        '''ReLu'''
-        # output = ReLu(snd_hidden, theta_output)
+            '''Tanh'''
+            output = Tanh(snd_hidden, theta_output)
+
+        elif (activation_function == 3):
+
+            '''ReLu'''
+            output = ReLu(snd_hidden, theta_output)
 
         #Obtem os predicts para as classes
         predicts = np.argmax(output, axis=1)
@@ -232,7 +262,8 @@ def calcula_acuracia_rede_neural(x, y, fst_theta_hidden, snd_theta_hidden, theta
         #Calcula o numero de acertos da rede
         acertos = np.sum(predicts == y)
 
-    print('Acuracia(Rede neural - ' + metodo + ': ' '{0:.2f}%'.format((acertos / len(y)) * 100))
+    print('{} Acuracia(Rede neural - '.format(activation_function) + metodo +
+          ': ' '{0:.2f}%'.format((acertos / len(y)) * 100))
 
 def main():
 
@@ -247,25 +278,71 @@ def main():
 
     '''CAMINHO PARA O CONJUNTO DE TESTE'''
     name_test = 'fashion-mnist-dataset/fashion-mnist_test.csv'
-
     x_test, y_test = le_dados(name=name_test)
 
     '''UTILIZA REGRESSÃO LOGÍSTICA'''
 
     #Adiciona a coluna x0 (bias == 0) a matriz x
-    # x_treino = np.insert(x_treino, obj=0, values=0, axis=1)
-    # x_validacao = np.insert(x_validacao, obj=0, values=0, axis=1)
-    # x_test = np.insert(x_test, obj=0, values=0, axis=1)
-    #
-    # # Aplica o metodo de one-vs-all
-    # h, thetas = one_vs_all(x=x_treino, y=y_treino, learning_rate=0.0001, iterations=100, num_classes=10)
-    # calcula_acuracia_logistica(x=x_treino, y=y_treino, thetas=thetas.T, metodo='One-vs_All - Treino')
-    # calcula_acuracia_logistica(x=x_validacao, y=y_validacao, thetas=thetas.T, metodo='One-vs-All - Validacao')
-    #
-    # #Aplica o metodo softmax regression
-    # h, thetas = softmax_regression(x=x_treino, y=y_treino, learning_rate=0.0001, iterations=100, num_classes=10)
-    # calcula_acuracia_logistica(x=x_treino, y=y_treino, thetas=thetas.T, metodo='Softmax - Treino')
-    # calcula_acuracia_logistica(x=x_validacao, y=y_validacao, thetas=thetas.T, metodo='Softmax - Validacao')
+    x_treino = np.insert(x_treino, obj=0, values=0, axis=1)
+    x_validacao = np.insert(x_validacao, obj=0, values=0, axis=1)
+    x_test = np.insert(x_test, obj=0, values=0, axis=1)
+
+    # Aplica o metodo de one-vs-all
+    h, thetas = one_vs_all(x=x_treino, y=y_treino, learning_rate=0.000001, iterations=300, num_classes=10)
+    calcula_acuracia_logistica(x=x_treino, y=y_treino, thetas=thetas.T, metodo='One-vs_All - Treino')
+    calcula_acuracia_logistica(x=x_validacao, y=y_validacao, thetas=thetas.T, metodo='One-vs-All - Validacao')
+    calcula_acuracia_logistica(x=x_test, y=y_test, thetas=thetas.T, metodo='One-vs-All - Teste')
+
+    #Aplica o metodo softmax regression
+    h, thetas = softmax_regression(x=x_treino, y=y_treino, learning_rate=0.000001, iterations=300, num_classes=10)
+    calcula_acuracia_logistica(x=x_treino, y=y_treino, thetas=thetas.T, metodo='Softmax - Treino')
+    calcula_acuracia_logistica(x=x_validacao, y=y_validacao, thetas=thetas.T, metodo='Softmax - Validacao')
+    calcula_acuracia_logistica(x=x_test, y=y_test, thetas=thetas.T, metodo='Softmax - Teste')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     '''UTILIZA REDES NEURAIS'''
@@ -275,45 +352,55 @@ def main():
     # x_validacao = np.insert(x_validacao, obj=0, values=1, axis=1)
     # x_test = np.insert(x_test, obj=0, values=1, axis=1)
 
-    # Aplica a rede neural com 1 camada escondida
 
 
-    '''80 por cento Sigmoid'''
+    '''Aplica a rede neural com 1 camada escondida'''
+
+    # '''80 por cento Sigmoid'''
     # acertos, theta_hidden, theta_output = one_hidden_layer(x=x_treino, y=y_treino, num_neurons=600, num_classes=10,
-    #                                                        iterations=20, learning_rate=0.0001)
+    #                                                        iterations=20, learning_rate=0.0001, activation_function=1)
     #
     # '''80 por cento com Tanh'''
-    # # acertos, theta_hidden, theta_output = one_hidden_layer(x=x_treino, y=y_treino, num_neurons=600, num_classes=10,
-    # #                                                        iterations=20, learning_rate=0.000001)
+    # acertos, theta_hidden, theta_output = one_hidden_layer(x=x_treino, y=y_treino, num_neurons=600, num_classes=10,
+    #                                                        iterations=20, learning_rate=0.000001, activation_function=2)
     #
     # '''70 por cento com ReLu'''
-    # # acertos, theta_hidden, theta_output = one_hidden_layer(x=x_treino, y=y_treino, num_neurons=600, num_classes=10,
-    # #                                                        iterations=30, learning_rate=0.0000001)
+    # acertos, theta_hidden, theta_output = one_hidden_layer(x=x_treino, y=y_treino, num_neurons=600, num_classes=10,
+    #                                                        iterations=30, learning_rate=0.0000001, activation_function=3)
     #
     # calcula_acuracia_rede_neural(x=x_treino, y=y_treino, fst_theta_hidden=theta_hidden, snd_theta_hidden=0,
-    #                              theta_output=theta_output, metodo='1 Hidden Layer (Treino)', camadas=1)
+    #                              theta_output=theta_output, metodo='1 Hidden Layer (Treino)', camadas=1,
+    #                              activation_function=1)
     # calcula_acuracia_rede_neural(x=x_validacao, y=y_validacao, fst_theta_hidden=theta_hidden, snd_theta_hidden=0,
-    #                              theta_output=theta_output, metodo='1 Hidden Layer (Validacao)', camadas=1)
+    #                              theta_output=theta_output, metodo='1 Hidden Layer (Validacao)', camadas=1,
+    #                              activation_function=1)
     # calcula_acuracia_rede_neural(x=x_test, y=y_test, fst_theta_hidden=theta_hidden, snd_theta_hidden=0,
-    #                              theta_output=theta_output, metodo='1 Hidden Layer (Teste)', camadas=1)
+    #                              theta_output=theta_output, metodo='1 Hidden Layer (Teste)', camadas=1,
+    #                              activation_function=1)
 
-    #Aplica a rede neural com 2 camadas escondidas
+
+    '''Aplica a rede neural com 2 camadas escondidas'''
 
     '''80 por cento Sigmoid e Tanh'''
     # acertos, fst_theta_hidden, snd_theta_hidden, theta_output = two_hidden_layer(x=x_treino, y=y_treino,
     #                                                                              num_neurons=600, num_classes=10,
-    #                                                                              iterations=20, learning_rate=0.0001)
-    # '''37 por cento com ReLu'''
+    #                                                                              iterations=20, learning_rate=0.0001,
+    #                                                                              activation_function=1)
+    # # '''37 por cento com ReLu'''
     # # acertos, fst_theta_hidden, snd_theta_hidden, theta_output = two_hidden_layer(x=x_treino, y=y_treino,
     # #                                                                              num_neurons=600, num_classes=10,
-    # #                                                                              iterations=30, learning_rate=0.0000001)
+    # #                                                                              iterations=30, learning_rate=0.0000001,
+    # #                                                                              activation_function=3)
     #
     # calcula_acuracia_rede_neural(x=x_treino, y=y_treino, fst_theta_hidden=fst_theta_hidden,
     #                              snd_theta_hidden=snd_theta_hidden,theta_output=theta_output,
-    #                              metodo='2 Hidden Layer (Treino)', camadas=2)
+    #                              metodo='2 Hidden Layer (Treino)', camadas=2, activation_function=1)
     # calcula_acuracia_rede_neural(x=x_validacao, y=y_validacao, fst_theta_hidden=fst_theta_hidden,
     #                              snd_theta_hidden=snd_theta_hidden,theta_output=theta_output,
-    #                              metodo='2 Hidden Layer (Validacao)', camadas=2)
+    #                              metodo='2 Hidden Layer (Validacao)', camadas=2, activation_function=1)
+    # calcula_acuracia_rede_neural(x=x_test, y=y_test, fst_theta_hidden=fst_theta_hidden,
+    #                              snd_theta_hidden=snd_theta_hidden, theta_output=theta_output,
+    #                              metodo='2 Hidden Layer (Teste)', camadas=2, activation_function=1)
 
 if __name__ == '__main__':
     main()
