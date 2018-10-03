@@ -245,12 +245,17 @@ def main():
     #Obtem os dados de treino e validacao
     x_treino, y_treino, x_validacao, y_validacao = split_treino_validacao(x, y)
 
+    '''CAMINHO PARA O CONJUNTO DE TESTE'''
+    name_test = 'fashion-mnist-dataset/fashion-mnist_test.csv'
+
+    x_test, y_test = le_dados(name=name_test)
 
     '''UTILIZA REGRESSÃO LOGÍSTICA'''
 
     #Adiciona a coluna x0 (bias == 0) a matriz x
     # x_treino = np.insert(x_treino, obj=0, values=0, axis=1)
     # x_validacao = np.insert(x_validacao, obj=0, values=0, axis=1)
+    # x_test = np.insert(x_test, obj=0, values=0, axis=1)
     #
     # # Aplica o metodo de one-vs-all
     # h, thetas = one_vs_all(x=x_treino, y=y_treino, learning_rate=0.0001, iterations=100, num_classes=10)
@@ -266,11 +271,12 @@ def main():
     '''UTILIZA REDES NEURAIS'''
 
     # Adiciona a coluna x0 (bias == 1) a matriz x
-    x_treino = np.insert(x_treino, obj=0, values=1, axis=1)
-    x_validacao = np.insert(x_validacao, obj=0, values=1, axis=1)
-
+    # x_treino = np.insert(x_treino, obj=0, values=1, axis=1)
+    # x_validacao = np.insert(x_validacao, obj=0, values=1, axis=1)
+    # x_test = np.insert(x_test, obj=0, values=1, axis=1)
 
     # Aplica a rede neural com 1 camada escondida
+
 
     '''80 por cento Sigmoid'''
     # acertos, theta_hidden, theta_output = one_hidden_layer(x=x_treino, y=y_treino, num_neurons=600, num_classes=10,
@@ -288,7 +294,8 @@ def main():
     #                              theta_output=theta_output, metodo='1 Hidden Layer (Treino)', camadas=1)
     # calcula_acuracia_rede_neural(x=x_validacao, y=y_validacao, fst_theta_hidden=theta_hidden, snd_theta_hidden=0,
     #                              theta_output=theta_output, metodo='1 Hidden Layer (Validacao)', camadas=1)
-
+    # calcula_acuracia_rede_neural(x=x_test, y=y_test, fst_theta_hidden=theta_hidden, snd_theta_hidden=0,
+    #                              theta_output=theta_output, metodo='1 Hidden Layer (Teste)', camadas=1)
 
     #Aplica a rede neural com 2 camadas escondidas
 
