@@ -161,33 +161,37 @@ def main():
     #Obtem os dados de treino e validacao
     x_treino, y_treino, x_validacao, y_validacao = split_treino_validacao(x, y)
 
-    #Aplica o metodo de one-vs-all
 
-    #Adiciona a coluna x0 (bias) a matriz x
-    x_treino = np.insert(x_treino, obj=0, values=0, axis=1)
-    x_validacao = np.insert(x_validacao, obj=0, values=0, axis=1)
+    '''UTILIZA REGRESSÃO LOGÍSTICA'''
 
-    # Aplica o metodo de one-vs-all
-    # h, thetas = one_vs_all(x=x_treino, y=y_treino, learning_rate=0.001, iterations=10, num_classes=10)
+    #Adiciona a coluna x0 (bias == 0) a matriz x
+    # x_treino = np.insert(x_treino, obj=0, values=0, axis=1)
+    # x_validacao = np.insert(x_validacao, obj=0, values=0, axis=1)
+    #
+    # # Aplica o metodo de one-vs-all
+    # h, thetas = one_vs_all(x=x_treino, y=y_treino, learning_rate=0.0001, iterations=100, num_classes=10)
     # calcula_acuracia(x=x_treino, y=y_treino, thetas=thetas.T, metodo='One-vs_All - Treino')
     # calcula_acuracia(x=x_validacao, y=y_validacao, thetas=thetas.T, metodo='One-vs-All - Validacao')
     #
     # #Aplica o metodo softmax regression
-    # h, thetas = softmax_regression(x=x_treino, y=y_treino, learning_rate=0.001, iterations=10, num_classes=10)
+    # h, thetas = softmax_regression(x=x_treino, y=y_treino, learning_rate=0.0001, iterations=100, num_classes=10)
     # calcula_acuracia(x=x_treino, y=y_treino, thetas=thetas.T, metodo='Softmax - Treino')
     # calcula_acuracia(x=x_validacao, y=y_validacao, thetas=thetas.T, metodo='Softmax - Validacao')
 
-    # Adiciona a coluna x0 (bias) a matriz x
-    # x_treino = np.insert(x_treino, obj=0, values=1, axis=1)
-    # x_validacao = np.insert(x_validacao, obj=0, values=1, axis=1)
+
+    '''UTILIZA REDES NEURAIS'''
+
+    # Adiciona a coluna x0 (bias == 1) a matriz x
+    x_treino = np.insert(x_treino, obj=0, values=1, axis=1)
+    x_validacao = np.insert(x_validacao, obj=0, values=1, axis=1)
 
     # Aplica a rede neural com 1 camada escondida
-    # acertos, theta_hidden, theta_output = one_hidden_layer(x=x_treino, y=y_treino, num_neurons=600, num_classes=10, iterations=3, learning_rate=0.00001)
+    # acertos, theta_hidden, theta_output = one_hidden_layer(x=x_treino, y=y_treino, num_neurons=600, num_classes=10, iterations=20, learning_rate=0.0001)
     # print('Acuracia(Rede neural - 1 camada escondidas): {0:.2f}%'.format((acertos / len(y_treino)) * 100))
 
     #Aplica a rede neural com 2 camadas escondidas
-    # acertos, fst_theta_hidden, snd_theta_hidden, theta_output = two_hidden_layer(x=x_treino, y=y_treino, num_neurons=400, num_classes=10, iterations=5, learning_rate=0.01)
-    # print('Acuracia(Rede neural - 2 camadas escondidas): {0:.2f}%'.format((acertos / len(y_treino)) * 100))
+    acertos, fst_theta_hidden, snd_theta_hidden, theta_output = two_hidden_layer(x=x_treino, y=y_treino, num_neurons=600, num_classes=10, iterations=50, learning_rate=0.0001)
+    print('Acuracia(Rede neural - 2 camadas escondidas): {0:.2f}%'.format((acertos / len(y_treino)) * 100))
 
 
 if __name__ == '__main__':

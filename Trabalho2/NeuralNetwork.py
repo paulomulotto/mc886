@@ -30,14 +30,14 @@ def OneHiddenLayer(x, y, num_neurons, num_classes, iterations, learning_rate):
 
     '''Cria as matrizes com os thetas'''
     #Cria a matriz com os thetas para a camada escondida
-    theta_hidden = np.random.rand(x.shape[1], num_neurons)
+    theta_hidden = 0.001 * np.random.randn(x.shape[1], num_neurons) / np.sqrt(x.shape[1])
 
     # Cria a matriz com os thetas para a camada de output
-    theta_output = np.random.rand(num_neurons + 1, num_classes)
+    theta_output = 0.001 * np.random.randn(num_neurons + 1, num_classes) / np.sqrt(num_neurons)
 
     # Mini-batch Gradient Descent
     dataSet_size = x.shape[0]
-    minibatch_size = 1
+    minibatch_size = 400
 
     # Pedict final
     h_final = np.array([])
@@ -114,13 +114,13 @@ def TwoHiddenLayers(x, y, num_neurons, num_classes, iterations, learning_rate):
 
     '''Cria as matrizes com os thetas'''
     #Cria a matriz com os thetas para a camada escondida
-    fst_theta_hidden = np.random.rand(x.shape[1], num_neurons)
+    fst_theta_hidden = np.random.randn(x.shape[1], num_neurons) / np.sqrt(x.shape[1])
 
     #Cria a matriz com os thetas para a segunda camada escondida
-    snd_theta_hidden = np.random.rand(num_neurons + 1, num_neurons)
+    snd_theta_hidden = np.random.randn(num_neurons + 1, num_neurons) / np.sqrt(num_neurons)
 
     #Cria a matriz com os thetas para a camada de output
-    theta_output = np.random.rand(num_neurons + 1, num_classes)
+    theta_output = np.random.randn(num_neurons + 1, num_classes) / np.sqrt(num_neurons)
 
     # Mini-batch Gradient Descent
     dataSet_size = x.shape[0]
