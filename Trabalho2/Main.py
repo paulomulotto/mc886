@@ -138,8 +138,9 @@ def two_hidden_layer(x, y, num_neurons, num_classes, iterations, learning_rate):
     # print(theta_hidden.shape)
     # print(theta_output.shape)
 
-'''Calcula a acuracia'''
-def calcula_acuracia(x, y, thetas, metodo):
+'''Calcula a acuracia das funcoes logisticas'''
+def calcula_acuracia_logistica(x, y, thetas, metodo):
+
 
     #A partir do modelo (thetas) encontra os predicts
     predicts = np.dot(x, thetas)
@@ -149,6 +150,46 @@ def calcula_acuracia(x, y, thetas, metodo):
     acertos = np.sum(predicts == y)
 
     print('Acuracia(' + metodo + '): '+ '{0:.2f}%'. format((acertos / len(y)) * 100))
+
+
+'''Calcula a acuracia das redes neurais'''
+def calcula_acuracia_rede_neural(x, y, fst_theta_hidden, snd_theta_hidden, theta_output, metodo, camadas):
+
+    if(camadas == 1):
+
+        # Calcula a primeira camada de neuronios
+        fst_hidden = SigmoidFunction(fst_theta_hidden, x)
+        fst_hidden = np.insert(fst_hidden, obj=0, values=1, axis=1)
+
+        # Calcula a camada de output
+        output = SigmoidFunction(theta_output, fst_hidden)
+
+        # Obtem os predicts para as classes
+        predicts = np.argmax(output, axis=1)
+
+        # Calcula o numero de acertos da rede
+        acertos = np.sum(predicts == y)
+
+    else:
+
+        #Calcula a primeira camada de neuronios
+        fst_hidden = SigmoidFunction(fst_theta_hidden, x)
+        fst_hidden = np.insert(fst_hidden, obj=0, values=1, axis=1)
+
+        #Calcula a segunda camada de neuronios
+        snd_hidden = SigmoidFunction(snd_theta_hidden, fst_hidden)
+        snd_hidden = np.insert(snd_hidden, obj=0, values=1, axis=1)
+
+        #Calcula a camda de output
+        output = SigmoidFunction(theta_output, snd_hidden)
+
+        #Obtem os predicts para as classes
+        predicts = np.argmax(output, axis=1)
+
+        #Calcula o numero de acertos da rede
+        acertos = np.sum(predicts == y)
+
+    print('Acuracia(Rede neural - ' + metodo + ': ' '{0:.2f}%'.format((acertos / len(y)) * 100))
 
 def main():
 
@@ -186,13 +227,25 @@ def main():
     x_validacao = np.insert(x_validacao, obj=0, values=1, axis=1)
 
     # Aplica a rede neural com 1 camada escondida
-    # acertos, theta_hidden, theta_output = one_hidden_layer(x=x_treino, y=y_treino, num_neurons=600, num_classes=10, iterations=20, learning_rate=0.0001)
-    # print('Acuracia(Rede neural - 1 camada escondidas): {0:.2f}%'.format((acertos / len(y_treino)) * 100))
+    # acertos, theta_hidden, theta_output = one_hidden_layer(x=x_treino, y=y_treino, num_neurons=600, num_classes=10,
+    #                                                        iterations=20, learning_rate=0.0001)
+    # calcula_acuracia_rede_neural(x=x_treino, y=y_treino, fst_theta_hidden=theta_hidden, snd_theta_hidden=0,
+    #                              theta_output=theta_output, metodo='1 Hidden Layer (Treino)', camadas=1)
+    # calcula_acuracia_rede_neural(x=x_validacao, y=y_validacao, fst_theta_hidden=theta_hidden, snd_theta_hidden=0,
+    #                              theta_output=theta_output, metodo='1 Hidden Layer (Validacao)', camadas=1)
+
 
     #Aplica a rede neural com 2 camadas escondidas
-    acertos, fst_theta_hidden, snd_theta_hidden, theta_output = two_hidden_layer(x=x_treino, y=y_treino, num_neurons=600, num_classes=10, iterations=50, learning_rate=0.0001)
-    print('Acuracia(Rede neural - 2 camadas escondidas): {0:.2f}%'.format((acertos / len(y_treino)) * 100))
+    acertos, fst_theta_hidden, snd_theta_hidden, theta_output = two_hidden_layer(x=x_treino, y=y_treino,
+                                                                                 num_neurons=600, num_classes=10,
+                                                                                 iterations=20, learning_rate=0.0001)
 
+    calcula_acuracia_rede_neural(x=x_treino, y=y_treino, fst_theta_hidden=fst_theta_hidden,
+                                 snd_theta_hidden=snd_theta_hidden,theta_output=theta_output,
+                                 metodo='2 Hidden Layer (Treino)', camadas=2)
+    calcula_acuracia_rede_neural(x=x_validacao, y=y_validacao, fst_theta_hidden=fst_theta_hidden,
+                                 snd_theta_hidden=snd_theta_hidden,theta_output=theta_output,
+                                 metodo='2 Hidden Layer (Validacao)', camadas=2)
 
 if __name__ == '__main__':
     main()

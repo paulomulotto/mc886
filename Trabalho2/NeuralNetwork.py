@@ -3,11 +3,13 @@ import numpy as np
 '''Funcao que aplica a funcao sigmoid'''
 def SigmoidFunction(theta, x):
 
+    # np.seterr(over='ignore')
+
     #Calcula z
     z = np.dot(x, theta)
 
     #Calcula h (predict)
-    h = 1 / (1 + np.exp(-z))
+    h = np.float64(1.0 / (1 + np.exp(-z)))
 
     return h
 
@@ -44,8 +46,6 @@ def OneHiddenLayer(x, y, num_neurons, num_classes, iterations, learning_rate):
 
     # Itera por numero de epocas
     for i in range(0, iterations):
-
-        print("Épocas: ", i)
 
         for j in range(0, dataSet_size, minibatch_size):
         # for j in range(0, dataSet_size, minibatch_size):
@@ -132,7 +132,6 @@ def TwoHiddenLayers(x, y, num_neurons, num_classes, iterations, learning_rate):
     # Itera por numero de epocas
     for i in range(0, iterations):
 
-        print("Épocas: ", i)
         for j in range(0, dataSet_size, minibatch_size):
 
             # Calcula as novas matrizes utilizadas para atualizar theta
