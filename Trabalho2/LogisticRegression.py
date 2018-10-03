@@ -1,7 +1,7 @@
 import numpy as np
 
 '''Funcao que aplica a funcao sigmoid'''
-def SigmoidFunction(theta, x):
+def SigmoidFunction(x, theta):
 
     #Calcula z
     z = np.dot(x, theta)
@@ -38,7 +38,7 @@ def Mini_Batch_Gradient_Descent(x, y, theta, learning_rate, iterations):
             y_mini = y[j:j + minibatch_size]
 
             # Calcula h (predict)
-            h = SigmoidFunction(theta, x_mini)
+            h = SigmoidFunction(x_mini, theta)
 
             # Calcula o novo theta
             theta = theta - (learning_rate * (np.dot((h - y_mini), x_mini) / len(y)))

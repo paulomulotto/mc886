@@ -1,32 +1,55 @@
 import numpy as np
 
 '''Funcao que aplica a funcao sigmoid'''
-def SigmoidFunction(theta, x):
+def SigmoidFunction(x, theta):
 
-    # np.seterr(over='ignore')
+    np.seterr(over='ignore')
 
     #Calcula z
     z = np.dot(x, theta)
 
     #Calcula h (predict)
-    h = np.float64(1.0 / (1 + np.exp(-z)))
+    h = np.float64(1.0 / (1 + np.float64(np.exp(-z))))
 
     return h
 
-#Aplica a funcao de calculo do predict da funcao Softmax
-def SoftMax_Prediction(x, thetas):
+'''Funcao derivativa da Sigmoid'''
+def DerivativeSigmoid(x):
 
-    #Calcula os predicts para cada x
-    scores = np.exp(np.dot(x, thetas))
+    return (x * (1 - x))
 
-    #Calcula sum_1->k(exp(x.thetas))
-    denominador = np.sum(scores, axis=1).reshape(scores.shape[0],1)
 
-    #Calcula os predicts
-    h = scores/denominador
+'''Funcao que aplica a funcao tanh'''
+def Tanh(x, theta):
+
+    #Calcula z
+    z = np.dot(x, theta)
+
+    #Calcula h (predict) utilizando tanh
+    h = np.float64(np.tanh(z))
 
     return h
 
+'''Funcao derivativa da Tanh'''
+def DerivativeTanh(x):
+
+    return (1 - np.tanh(x)**2)
+
+'''Funcao que aplica a funcao ReLu'''
+def ReLu(x, theta):
+
+    #Calcula z
+    z = np.dot(x, theta)
+
+    return np.maximum(0, z)
+
+'''Funcao derivativa da ReLu'''
+def DerivativeReLu(x):
+
+    x[ x <= 0] = 0
+    x[ x > 0] = 1
+
+    return x
 '''Funcao que utiliza uma rede neural com 1 camada escondida'''
 def OneHiddenLayer(x, y, num_neurons, num_classes, iterations, learning_rate):
 
@@ -55,21 +78,43 @@ def OneHiddenLayer(x, y, num_neurons, num_classes, iterations, learning_rate):
             y_mini = y[j:j + minibatch_size]
 
             # Calcula os valores dos neuronios da camada escondida
-            first_layer = SigmoidFunction(theta_hidden, x_mini)
+
+            '''Sigmoid'''
+            first_layer = SigmoidFunction(x_mini, theta_hidden)
+
+            '''Tanh'''
+            # first_layer = Tanh(x_mini, theta_hidden)
+
+            '''ReLu'''
+            # first_layer = ReLu(x_mini, theta_hidden)
 
             # Adiciona a coluna a0 (bias) a matriz dos neuronios da primeira camada escondida
             first_layer = np.insert(first_layer, obj=0, values=1, axis=1)
 
-            # #Aplica Softmax function para normalizar os predicts
-            output_layer = SigmoidFunction(theta_output, first_layer)
-            #output_layer = SoftMax_Prediction(first_layer, theta_output)
+            # Calcula os predicts na output layer
+
+            '''Sigmoid'''
+            output_layer = SigmoidFunction(first_layer, theta_output)
+
+            '''Tanh'''
+            # output_layer = Tanh(first_layer, theta_output)
+
+            '''ReLU'''
+            # output_layer = ReLu(first_layer, theta_output)
 
             # Delta output
-            # delta_output = np.multiply((-(y_mini - output_layer)), output_layer * (1 - output_layer))
             delta_output = (output_layer - y_mini)
 
             # Calcula delta da primeira camada escondida
-            delta_hidden = np.multiply((first_layer * (1 - first_layer)), np.dot(delta_output, theta_output.T))
+
+            '''Sigmoid'''
+            delta_hidden = np.multiply(DerivativeSigmoid(first_layer), np.dot(delta_output, theta_output.T))
+
+            '''Tanh'''
+            # delta_hidden = np.multiply(DerivativeTanh(first_layer), np.dot(delta_output, theta_output.T))
+
+            '''ReLu'''
+            # delta_hidden = np.multiply(DerivativeReLu(first_layer), np.dot(delta_output, theta_output.T))
 
             # Retira o delta do bias para que o calculo do delta da primeira camada escondida seja correto
             delta_hidden = np.delete(delta_hidden, axis=1, obj=0)
@@ -139,34 +184,71 @@ def TwoHiddenLayers(x, y, num_neurons, num_classes, iterations, learning_rate):
             y_mini = y[j:j + minibatch_size]
 
             # Calcula os valores dos neuronios para a primeira camada escondida
-            first_layer = SigmoidFunction(fst_theta_hidden, x_mini)
+
+            '''Sigmoid'''
+            first_layer = SigmoidFunction(x_mini, fst_theta_hidden)
+
+            '''Tanh'''
+            # first_layer = Tanh(x_mini, fst_theta_hidden)
+
+            '''ReLu'''
+            # first_layer = ReLu(x_mini, fst_theta_hidden)
 
             # Adiciona a coluna a0 (bias) a matriz dos neuronios da primeira camada escondida
             first_layer = np.insert(first_layer, obj=0, values=1, axis=1)
 
             # Calcula os valores dos neuronios para a segunda camada escondida
-            second_layer = SigmoidFunction(snd_theta_hidden, first_layer)
+
+            '''Sigmoid'''
+            second_layer = SigmoidFunction(first_layer, snd_theta_hidden)
+
+            '''Tanh'''
+            # second_layer = Tanh(first_layer, snd_theta_hidden)
+
+            '''ReLu'''
+            # second_layer = ReLu(first_layer, snd_theta_hidden)
 
             # Adiciona a coluna a0 (bias) a matriz dos neuronios da segunda camada escondida
             second_layer = np.insert(second_layer, obj=0, values=1, axis=1)
 
-            # Aplica Softmax function para normalizar os predicts
-            # output_layer = SoftMax_Prediction(second_layer, theta_output)
+            #Calcula os predicts na output layer
 
-            output_layer = SigmoidFunction(theta_output, second_layer)
+            '''Sigmoid'''
+            output_layer = SigmoidFunction(second_layer, theta_output)
+
+            '''Tanh'''
+            # output_layer = Tanh(second_layer, theta_output)
+
+            '''ReLu'''
+            # output_layer = ReLu(second_layer, theta_output)
 
             # Delta output
-            delta_output = np.multiply((-(y_mini - output_layer)), output_layer * (1 - output_layer))
+            delta_output = (output_layer - y_mini)
 
             # Calcula delta da segunda camada escondida
-            delta_snd_hidden = np.multiply((second_layer * (1 - second_layer)), np.dot(delta_output, theta_output.T))
+
+            '''Sigmoid'''
+            delta_snd_hidden = np.multiply(DerivativeSigmoid(second_layer), np.dot(delta_output, theta_output.T))
+
+            '''Tanh'''
+            # delta_snd_hidden = np.multiply(DerivativeTanh(second_layer), np.dot(delta_output, theta_output.T))
+
+            '''ReLu'''
+            # delta_snd_hidden = np.multiply(DerivativeReLu(second_layer), np.dot(delta_output, theta_output.T))
 
             # Retira o delta do bias para que o calculo do delta da primeira camada escondida seja correto
             delta_snd_hidden = np.delete(delta_snd_hidden, axis=1, obj=0)
 
             # Calcula delta da primeira camada escondida
-            delta_fst_hidden = np.multiply((first_layer * (1 - first_layer)),
-                                           np.dot(delta_snd_hidden, snd_theta_hidden.T))
+
+            '''Sigmoid'''
+            delta_fst_hidden = np.multiply(DerivativeSigmoid(first_layer), np.dot(delta_snd_hidden, snd_theta_hidden.T))
+
+            '''Tanh'''
+            # delta_fst_hidden = np.multiply(DerivativeTanh(first_layer), np.dot(delta_snd_hidden, snd_theta_hidden.T))
+
+            '''ReLu'''
+            # delta_fst_hidden = np.multiply(DerivativeReLu(first_layer), np.dot(delta_snd_hidden, snd_theta_hidden.T))
 
             # Retira o bias para que o calculo do erro dos thetas da camada de input seja correto
             delta_fst_hidden = np.delete(delta_fst_hidden, axis=1, obj=0)
