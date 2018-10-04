@@ -105,10 +105,6 @@ def one_hidden_layer(x, y, num_neurons, num_classes, iterations, learning_rate, 
     # Contador de acertos
     contador = np.sum(predicts == y)
 
-    #print(h.shape)
-    # print(theta_hidden.shape)
-    # print(theta_output.shape)
-
     return contador, theta_hidden, theta_output
 
 '''Funcao que aplica a rede neural de uma camada escondida'''
@@ -136,9 +132,6 @@ def two_hidden_layer(x, y, num_neurons, num_classes, iterations, learning_rate, 
     contador = np.sum(predicts == y)
 
     return contador, fst_theta_hidden, snd_theta_hidden, theta_output
-    # print(h.shape)
-    # print(theta_hidden.shape)
-    # print(theta_output.shape)
 
 '''Calcula a acuracia das funcoes logisticas'''
 def calcula_acuracia_logistica(x, y, thetas, metodo):
@@ -265,17 +258,34 @@ def calcula_acuracia_rede_neural(x, y, fst_theta_hidden, snd_theta_hidden, theta
     print('{} Acuracia(Rede neural - '.format(activation_function) + metodo +
           ': ' '{0:.2f}%'.format((acertos / len(y)) * 100))
 
+'''Calcula a matriz de confusao'''
+def confusion_matrix(x, thetas, y):
+
+    #Calcula os predicts
+    predicts = np.dot(x, thetas)
+    predicts = np.argmax(predicts, axis=1)
+
+    #Matriz de confusao
+    conf_matriz = np.zeros((10, 10))
+
+    #Calcula a matriz de confusao
+    for i in range(0, len(predicts)):
+
+        conf_matriz[y[i], predicts[i]] += 1
+
+    return conf_matriz
+
 def main():
 
     '''------------------------------------------------------------------------------------------------------------'''
     '''-----------------ESCOLHA AQUI SE IRA UTILIZAR REGRESSAO LOGISTICA (1) OU REDES NEURAIS (2)------------------'''
     '''------------------------------------------------------------------------------------------------------------'''
-    tipo_treinamento = 1
+    tipo_treinamento = 2
 
     '''------------------------------------------------------------------------------------------------------------'''
     '''-------CASO ESCOLHA REDES NEURAIS COMO FORMA DE TREINAMENTO, ESOLHA ENTRE 1 CAMDA (1) E 2 CAMADAS (2)-------'''
     '''------------------------------------------------------------------------------------------------------------'''
-    qtd_camadas = 1
+    qtd_camadas = 2
 
 
     #Caminho para o arquivo csv com os dados do problema
@@ -287,17 +297,21 @@ def main():
     #Obtem os dados de treino e validacao
     x_treino, y_treino, x_validacao, y_validacao = split_treino_validacao(x, y)
 
-    '''CAMINHO PARA O CONJUNTO DE TESTE'''
+    #Caminho para o arquivo csv com o conjunto de teste
     name_test = 'fashion-mnist-dataset/fashion-mnist_test.csv'
     x_test, y_test = le_dados(name=name_test)
 
 
-    '''UTILIZA REGRESSÃO LOGÍSTICA'''
+    '''------------------------------------------------------------------------------------------------------------'''
+    '''-----------------------------------------UTILIZA REGRESSÃO LOGÍSTICA----------------------------------------'''
+    '''------------------------------------------------------------------------------------------------------------'''
     if(tipo_treinamento == 1):
 
-        # Variaveis de configuracao das funcoes
+        '''------------------------------------------------------------------------------------------------------------'''
+        '''------------------------------------------VARIAVEIS DE CONFIGURACAO-----------------------------------------'''
+        '''------------------------------------------------------------------------------------------------------------'''
         learning_rate = 0.0001
-        iterations = 100
+        iterations = 500
 
         #Adiciona a coluna x0 (bias == 0) a matriz x
         x_treino = np.insert(x_treino, obj=0, values=0, axis=1)
@@ -318,17 +332,24 @@ def main():
         calcula_acuracia_logistica(x=x_validacao, y=y_validacao, thetas=thetas.T, metodo='Softmax - Validacao')
         calcula_acuracia_logistica(x=x_test, y=y_test, thetas=thetas.T, metodo='Softmax - Teste')
 
+
     elif(tipo_treinamento == 2):
+
+        '''------------------------------------------------------------------------------------------------------------'''
+        '''--------------------------------------------UTILIZA REDES NEURAIS-------------------------------------------'''
+        '''------------------------------------------------------------------------------------------------------------'''
 
         # Adiciona a coluna x0 (bias == 1) a matriz x
         x_treino = np.insert(x_treino, obj=0, values=1, axis=1)
         x_validacao = np.insert(x_validacao, obj=0, values=1, axis=1)
         x_test = np.insert(x_test, obj=0, values=1, axis=1)
 
-        # Variaveis de configuracao das funcoes
-        activation_function = 1
+        '''------------------------------------------------------------------------------------------------------------'''
+        '''------------------------------------------VARIAVEIS DE CONFIGURACAO-----------------------------------------'''
+        '''------------------------------------------------------------------------------------------------------------'''
+        activation_function = 3
         learning_rate = 0.0001
-        iterations = 20
+        iterations = 3
         num_neurons = 600
 
         if(qtd_camadas == 1):

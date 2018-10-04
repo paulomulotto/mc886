@@ -46,8 +46,8 @@ def ReLu(x, theta):
 '''Funcao derivativa da ReLu'''
 def DerivativeReLu(x):
 
-    x[ x <= 0] = 0
-    x[ x > 0] = 1
+    x[x <= 0] = 0
+    x[x > 0] = 1
 
     return x
 '''Funcao que utiliza uma rede neural com 1 camada escondida'''
@@ -155,17 +155,6 @@ def OneHiddenLayer(x, y, num_neurons, num_classes, iterations, learning_rate, ac
 
             # Retira o bias, que sera adionado novamente apos o temrino dessa iteracao, para evitar acumulo de bias
             first_layer = np.delete(first_layer, axis=1, obj=0)
-
-        #print('delta_output', delta_output)
-    # # print('output_layer: ', output_layer.shape)
-    # # print('theta_output: ', theta_output.shape)
-    # # print('y: ', y.shape)
-    # # print('delta_output', delta_output.shape)
-    # # print('delta_hidden: ', delta_hidden.shape)
-    # # print('theta_hidden: ', theta_hidden.shape)
-    # # print('first_layer: ', first_layer.shape)
-    # # print('error1: ', error1.shape)
-    # # print('error: ', error.shape)
 
     return h_final, theta_hidden, theta_output
 
@@ -327,22 +316,5 @@ def TwoHiddenLayers(x, y, num_neurons, num_classes, iterations, learning_rate, a
             # Retira o bias, que sera adionado novamente apos o temrino dessa iteracao, para evitar acumulo de bias
             first_layer = np.delete(first_layer, axis=1, obj=0)
             second_layer = np.delete(second_layer, axis=1, obj=0)
-
-    # print('output_layer: ', output_layer.shape)
-    # print('second_layer: ', second_layer.shape)
-    # print('theta_output: ', theta_output.shape)
-    # print('y: ', y.shape)
-    # print('delta_output', delta_output.shape)
-    # print('second_layer: ', second_layer.shape)
-    # print('delta_output: ', delta_output.shape)
-    # print('delta_snd_hidden: ', delta_snd_hidden.shape)
-    # print('theta_output: ', theta_output.shape)
-    # print('snd_theta_hidden: ', snd_theta_hidden.shape)
-    # print('first_layer: ', first_layer.shape)
-    # print('delta_fst_hidden: ', delta_fst_hidden.shape)
-    # print('error2: ', error2.shape)
-    # print('error1: ', error1.shape)
-    # print('error: ', error.shape)
-    # print('fst_theta_hidden: ', fst_theta_hidden.shape)
 
     return h_final, fst_theta_hidden, snd_theta_hidden, theta_output

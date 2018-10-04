@@ -3,6 +3,8 @@ import numpy as np
 #Aplica a funcao de calculo do predict da funcao Softmax
 def SoftMax_Prediction(x, thetas):
 
+    np.seterr(over='ignore')
+
     #Calcula os predicts para cada x
     scores = np.exp(np.dot(x, thetas.T))
 

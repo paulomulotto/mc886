@@ -3,11 +3,13 @@ import numpy as np
 '''Funcao que aplica a funcao sigmoid'''
 def SigmoidFunction(x, theta):
 
+    np.seterr(over='ignore')
+
     #Calcula z
     z = np.dot(x, theta)
 
     #Calcula h (predict)
-    h = 1 / (1 + np.exp(-z))
+    h = np.float64(1 / (1 + np.float64(np.exp(-z))))
 
     return h
 
