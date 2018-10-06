@@ -18,7 +18,7 @@ def SoftMax_Prediction(x, thetas):
 
 
 # Atualiza theta com Mini-Batch Gradient Descent
-def Mini_Batch_Gradient_Descent(x, y, thetas, learning_rate, iterations):
+def Mini_Batch_Gradient_Descent(x, y, thetas, learning_rate, iterations, y_real):
 
     # Mini-batch Gradient Descent
     dataSet_size = x.shape[0]
@@ -27,14 +27,23 @@ def Mini_Batch_Gradient_Descent(x, y, thetas, learning_rate, iterations):
     # Pedict final
     h_final = np.array([])
 
+    # Numero de acertos por iteracao
+    cont_acertos = np.array([])
+
     #Itera por numero de epocas
     for i in range(0, iterations):
+
+        #Armazena o numero de acertos da iteracao
+        acertos = 0
+
+        print('Época: {}'.format(i))
 
         for j in range(0, dataSet_size, minibatch_size):
 
             # Calcula as novas matrizes utilizadas para atualizar theta
             x_mini = x[j:j + minibatch_size]
             y_mini = y[j:j + minibatch_size]
+            y_real_mini = y_real[j:j + minibatch_size]
 
             # Calcula h (predict)
             h = SoftMax_Prediction(x=x_mini, thetas=thetas)
@@ -44,7 +53,6 @@ def Mini_Batch_Gradient_Descent(x, y, thetas, learning_rate, iterations):
 
             #Armazena somento o ultimo h calculado, que eh o mais atualizado
             if(i == iterations - 1):
-
                 if(j == 0):
                     h_final = h
                 else:
@@ -52,15 +60,22 @@ def Mini_Batch_Gradient_Descent(x, y, thetas, learning_rate, iterations):
                     h_final = np.append(h_final, h, axis=0)
 
 
-    return h_final, thetas
+            # Calcula o numero de acertos
+            predicts = np.argmax(h, axis=1)
+            acertos += np.sum(predicts == y_real_mini)
+
+        cont_acertos = np.append(cont_acertos, acertos)
+
+    return h_final, thetas, cont_acertos
 
 
-def SoftmaxRegression(x, y, learning_rate, iterations, num_classes):
+def SoftmaxRegression(x, y, learning_rate, iterations, num_classes, y_real):
 
     #Thetas
     thetas = np.zeros((num_classes, x.shape[1]))
 
     #Calcula o predict h
-    h, thetas = Mini_Batch_Gradient_Descent(x=x, y=y, thetas=thetas, learning_rate=learning_rate, iterations=iterations)
+    h, thetas, cont_acertos = Mini_Batch_Gradient_Descent(x=x, y=y, thetas=thetas, learning_rate=learning_rate,
+                                                          iterations=iterations, y_real=y_real)
 
-    return h, thetas
+    return h, thetas, cont_acertos

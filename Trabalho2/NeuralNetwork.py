@@ -3,10 +3,10 @@ import numpy as np
 '''Funcao que aplica a funcao sigmoid'''
 def SigmoidFunction(x, theta):
 
-    np.seterr(over='ignore')
+    # np.seterr(over='ignore')
 
     #Calcula z
-    z = np.dot(x, theta)
+    z = np.float64(np.dot(x, theta))
 
     #Calcula h (predict)
     h = np.float64(1.0 / (1 + np.float64(np.exp(-z))))
@@ -51,14 +51,14 @@ def DerivativeReLu(x):
 
     return x
 '''Funcao que utiliza uma rede neural com 1 camada escondida'''
-def OneHiddenLayer(x, y, num_neurons, num_classes, iterations, learning_rate, activation_function):
+def OneHiddenLayer(x, y, num_neurons, num_classes, iterations, learning_rate, activation_function, y_real):
 
     '''Cria as matrizes com os thetas'''
     #Cria a matriz com os thetas para a camada escondida
-    theta_hidden = 0.001 * np.random.randn(x.shape[1], num_neurons) / np.sqrt(x.shape[1])
+    theta_hidden = np.random.randn(x.shape[1], num_neurons) / np.sqrt(x.shape[1])
 
     # Cria a matriz com os thetas para a camada de output
-    theta_output = 0.001 * np.random.randn(num_neurons + 1, num_classes) / np.sqrt(num_neurons)
+    theta_output = np.random.randn(num_neurons + 1, num_classes) / np.sqrt(num_neurons)
 
     # Mini-batch Gradient Descent
     dataSet_size = x.shape[0]
@@ -67,11 +67,15 @@ def OneHiddenLayer(x, y, num_neurons, num_classes, iterations, learning_rate, ac
     # Pedict final
     h_final = np.array([])
 
+    # Numero de acertos por iteracao
+    cont_acertos = np.array([])
+
     # Itera por numero de epocas
     for i in range(0, iterations):
 
+        print('Época: {}'.format(i))
+
         for j in range(0, dataSet_size, minibatch_size):
-        # for j in range(0, dataSet_size, minibatch_size):
 
             # Calcula as novas matrizes utilizadas para atualizar theta
             x_mini = x[j:j + minibatch_size]
@@ -156,10 +160,16 @@ def OneHiddenLayer(x, y, num_neurons, num_classes, iterations, learning_rate, ac
             # Retira o bias, que sera adionado novamente apos o temrino dessa iteracao, para evitar acumulo de bias
             first_layer = np.delete(first_layer, axis=1, obj=0)
 
-    return h_final, theta_hidden, theta_output
+        # Calcula o numero de acertos, para calculo do grafico de acertos por iteracao
+        predicts = np.argmax(h_final, axis=1)
+        acertos = np.sum(predicts == y_real)
+        cont_acertos = np.append(cont_acertos, acertos)
+
+
+    return h_final, theta_hidden, theta_output, cont_acertos
 
 '''Funcao que utiliza uma rede neural com 2 camadas escondidas'''
-def TwoHiddenLayers(x, y, num_neurons, num_classes, iterations, learning_rate, activation_function):
+def TwoHiddenLayers(x, y, num_neurons, num_classes, iterations, learning_rate, activation_function, y_real):
 
     '''Cria as matrizes com os thetas'''
     #Cria a matriz com os thetas para a camada escondida
@@ -178,8 +188,13 @@ def TwoHiddenLayers(x, y, num_neurons, num_classes, iterations, learning_rate, a
     # Pedict final
     h_final = np.array([])
 
+    #Numero de acertos por iteracao
+    cont_acertos = np.array([])
+
     # Itera por numero de epocas
     for i in range(0, iterations):
+
+        print('Época: {}'.format(i))
 
         for j in range(0, dataSet_size, minibatch_size):
 
@@ -317,4 +332,10 @@ def TwoHiddenLayers(x, y, num_neurons, num_classes, iterations, learning_rate, a
             first_layer = np.delete(first_layer, axis=1, obj=0)
             second_layer = np.delete(second_layer, axis=1, obj=0)
 
-    return h_final, fst_theta_hidden, snd_theta_hidden, theta_output
+        #Calcula o numero de acertos
+        predicts = np.argmax(h_final, axis=1)
+        acertos = np.sum(predicts == y_real)
+        cont_acertos = np.append(cont_acertos, acertos)
+
+
+    return h_final, fst_theta_hidden, snd_theta_hidden, theta_output, cont_acertos
