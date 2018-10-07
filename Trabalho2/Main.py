@@ -110,7 +110,7 @@ def one_hidden_layer(x, y, num_neurons, num_classes, iterations, learning_rate, 
                                                    num_classes=num_classes, iterations=iterations,
                                                    learning_rate=learning_rate, activation_function=activation_function,
                                                                  y_real=y)
-
+    graficos(cont_acertos)
 
     # Obtem os predicts do metodo
     predicts = np.argmax(h, axis=1)
@@ -139,6 +139,9 @@ def two_hidden_layer(x, y, num_neurons, num_classes, iterations, learning_rate, 
                                                                           learning_rate=learning_rate,
                                                                           activation_function=activation_function,
                                                                           y_real=y)
+
+
+    graficos(cont_acertos)
 
     # Obtem os predicts do metodo
     predicts = np.argmax(h, axis=1)
@@ -295,12 +298,12 @@ def main():
     '''------------------------------------------------------------------------------------------------------------'''
     '''-----------------ESCOLHA AQUI SE IRA UTILIZAR REGRESSAO LOGISTICA (1) OU REDES NEURAIS (2)------------------'''
     '''------------------------------------------------------------------------------------------------------------'''
-    tipo_treinamento = 1
+    tipo_treinamento = 2
 
     '''------------------------------------------------------------------------------------------------------------'''
     '''-------CASO ESCOLHA REDES NEURAIS COMO FORMA DE TREINAMENTO, ESOLHA ENTRE 1 CAMDA (1) E 2 CAMADAS (2)-------'''
     '''------------------------------------------------------------------------------------------------------------'''
-    qtd_camadas = 2
+    qtd_camadas = 1
 
 
     #Caminho para o arquivo csv com os dados do problema
@@ -326,7 +329,7 @@ def main():
         '''------------------------------------------VARIAVEIS DE CONFIGURACAO-----------------------------------------'''
         '''------------------------------------------------------------------------------------------------------------'''
         learning_rate = 0.1
-        iterations = 5
+        iterations = 5000
 
         #Adiciona a coluna x0 (bias == 0) a matriz x
         x_treino = np.insert(x_treino, obj=0, values=0, axis=1)
@@ -334,18 +337,18 @@ def main():
         x_test = np.insert(x_test, obj=0, values=0, axis=1)
 
         # Aplica o metodo de one-vs-all
-        # h, thetas = one_vs_all(x=x_treino, y=y_treino, learning_rate=learning_rate, iterations=iterations,
-        #                        num_classes=10)
-        # calcula_acuracia_logistica(x=x_treino, y=y_treino, thetas=thetas.T, metodo='One-vs_All - Treino')
-        # calcula_acuracia_logistica(x=x_validacao, y=y_validacao, thetas=thetas.T, metodo='One-vs-All - Validacao')
-        # calcula_acuracia_logistica(x=x_test, y=y_test, thetas=thetas.T, metodo='One-vs-All - Teste')
+        h, thetas = one_vs_all(x=x_treino, y=y_treino, learning_rate=learning_rate, iterations=iterations,
+                               num_classes=10)
+        calcula_acuracia_logistica(x=x_treino, y=y_treino, thetas=thetas.T, metodo='One-vs_All - Treino')
+        calcula_acuracia_logistica(x=x_validacao, y=y_validacao, thetas=thetas.T, metodo='One-vs-All - Validacao')
+        calcula_acuracia_logistica(x=x_test, y=y_test, thetas=thetas.T, metodo='One-vs-All - Teste')
 
         #Aplica o metodo softmax regression
-        h, thetas = softmax_regression(x=x_treino, y=y_treino, learning_rate=learning_rate, iterations=iterations,
-                                       num_classes=10)
-        calcula_acuracia_logistica(x=x_treino, y=y_treino, thetas=thetas.T, metodo='Softmax - Treino')
-        calcula_acuracia_logistica(x=x_validacao, y=y_validacao, thetas=thetas.T, metodo='Softmax - Validacao')
-        calcula_acuracia_logistica(x=x_test, y=y_test, thetas=thetas.T, metodo='Softmax - Teste')
+        # h, thetas = softmax_regression(x=x_treino, y=y_treino, learning_rate=learning_rate, iterations=iterations,
+        #                                num_classes=10)
+        # calcula_acuracia_logistica(x=x_treino, y=y_treino, thetas=thetas.T, metodo='Softmax - Treino')
+        # calcula_acuracia_logistica(x=x_validacao, y=y_validacao, thetas=thetas.T, metodo='Softmax - Validacao')
+        # calcula_acuracia_logistica(x=x_test, y=y_test, thetas=thetas.T, metodo='Softmax - Teste')
 
 
     elif(tipo_treinamento == 2):
@@ -364,7 +367,7 @@ def main():
         '''------------------------------------------------------------------------------------------------------------'''
         activation_function = 1
         learning_rate = 0.001
-        iterations = 5
+        iterations = 50
         num_neurons = 600
 
         if(qtd_camadas == 1):
@@ -387,6 +390,24 @@ def main():
                                          theta_output=theta_output, metodo='1 Hidden Layer (Teste)', camadas=1,
                                          activation_function=activation_function)
 
+            print('Learning rate: {}'.format(learning_rate))
+            print('Iterações: {}'.format(iterations))
+
+            # # Calcula os predicts
+            # first_layer = SigmoidFunction(x_test, theta_hidden)
+            # first_layer = np.insert(first_layer, obj=0, values=1, axis=1)
+            # predicts = SigmoidFunction(first_layer, theta_output)
+            # predicts = np.argmax(predicts, axis=1)
+            #
+            # # Matriz de confusao
+            # conf_matriz = np.zeros((10, 10))
+            #
+            # # Calcula a matriz de confusao
+            # for i in range(0, len(predicts)):
+            #     conf_matriz[y_test[i], predicts[i]] += 1
+            #
+            # print(conf_matriz)
+
         elif(qtd_camadas == 2):
 
             '''Aplica a rede neural com 2 camadas escondidas'''
@@ -396,6 +417,23 @@ def main():
                                                                                          iterations=iterations,
                                                                                          learning_rate=learning_rate,
                                                                                          activation_function=activation_function)
+
+            # # Calcula os predicts
+            # first_layer = ReLu(x_test, fst_theta_hidden)
+            # first_layer = np.insert(first_layer, obj=0, values=1, axis=1)
+            # second_layer = ReLu(first_layer, snd_theta_hidden)
+            # second_layer = np.insert(second_layer, obj=0, values=1, axis=1)
+            # predicts = ReLu(second_layer, theta_output)
+            # predicts = np.argmax(predicts, axis=1)
+            #
+            # # Matriz de confusao
+            # conf_matriz = np.zeros((10, 10))
+            #
+            # # Calcula a matriz de confusao
+            # for i in range(0, len(predicts)):
+            #     conf_matriz[y_test[i], predicts[i]] += 1
+            #
+            # print(conf_matriz)
 
             calcula_acuracia_rede_neural(x=x_treino, y=y_treino, fst_theta_hidden=fst_theta_hidden,
                                          snd_theta_hidden=snd_theta_hidden,theta_output=theta_output,
@@ -408,6 +446,8 @@ def main():
             calcula_acuracia_rede_neural(x=x_test, y=y_test, fst_theta_hidden=fst_theta_hidden,
                                          snd_theta_hidden=snd_theta_hidden, theta_output=theta_output,
                                          metodo='2 Hidden Layer (Teste)', camadas=2, activation_function=activation_function)
+
+
             print('Learning rate: {}'.format(learning_rate))
             print('Iterações: {}'.format(iterations))
 
