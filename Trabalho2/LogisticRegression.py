@@ -27,8 +27,6 @@ def Mini_Batch_Gradient_Descent(x, y, theta, learning_rate, iterations):
     #Itera por numero de epocas
     for i in range(0, iterations):
 
-        print('Época: {}'.format(i))
-
         for j in range(0, dataSet_size, minibatch_size):
 
             # Calcula as novas matrizes utilizadas para atualizar theta

@@ -288,7 +288,7 @@ def main():
     '''------------------------------------------------------------------------------------------------------------'''
     '''-----------------ESCOLHA AQUI SE IRA UTILIZAR REGRESSAO LOGISTICA (1) OU REDES NEURAIS (2)------------------'''
     '''------------------------------------------------------------------------------------------------------------'''
-    tipo_treinamento = 2
+    tipo_treinamento = 1
 
     '''------------------------------------------------------------------------------------------------------------'''
     '''-------CASO ESCOLHA REDES NEURAIS COMO FORMA DE TREINAMENTO, ESOLHA ENTRE 1 CAMDA (1) E 2 CAMADAS (2)-------'''
@@ -319,7 +319,7 @@ def main():
         '''------------------------------------------VARIAVEIS DE CONFIGURACAO-----------------------------------------'''
         '''------------------------------------------------------------------------------------------------------------'''
         learning_rate = 0.1
-        iterations = 5000
+        iterations = 50
 
         #Adiciona a coluna x0 (bias == 0) a matriz x
         x_treino = np.insert(x_treino, obj=0, values=0, axis=1)
@@ -334,11 +334,11 @@ def main():
         calcula_acuracia_logistica(x=x_test, y=y_test, thetas=thetas.T, metodo='One-vs-All - Teste')
 
         #Aplica o metodo softmax regression
-        # h, thetas = softmax_regression(x=x_treino, y=y_treino, learning_rate=learning_rate, iterations=iterations,
-        #                                num_classes=10)
-        # calcula_acuracia_logistica(x=x_treino, y=y_treino, thetas=thetas.T, metodo='Softmax - Treino')
-        # calcula_acuracia_logistica(x=x_validacao, y=y_validacao, thetas=thetas.T, metodo='Softmax - Validacao')
-        # calcula_acuracia_logistica(x=x_test, y=y_test, thetas=thetas.T, metodo='Softmax - Teste')
+        h, thetas = softmax_regression(x=x_treino, y=y_treino, learning_rate=learning_rate, iterations=iterations,
+                                       num_classes=10)
+        calcula_acuracia_logistica(x=x_treino, y=y_treino, thetas=thetas.T, metodo='Softmax - Treino')
+        calcula_acuracia_logistica(x=x_validacao, y=y_validacao, thetas=thetas.T, metodo='Softmax - Validacao')
+        calcula_acuracia_logistica(x=x_test, y=y_test, thetas=thetas.T, metodo='Softmax - Teste')
 
 
     elif(tipo_treinamento == 2):
@@ -357,7 +357,7 @@ def main():
         '''------------------------------------------------------------------------------------------------------------'''
         activation_function = 1
         learning_rate = 0.001
-        iterations = 50
+        iterations = 10
         num_neurons = 600
 
         if(qtd_camadas == 1):

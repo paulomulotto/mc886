@@ -73,8 +73,6 @@ def OneHiddenLayer(x, y, num_neurons, num_classes, iterations, learning_rate, ac
     # Itera por numero de epocas
     for i in range(0, iterations):
 
-        print('Época: {}'.format(i))
-
         for j in range(0, dataSet_size, minibatch_size):
 
             # Calcula as novas matrizes utilizadas para atualizar theta
@@ -193,8 +191,6 @@ def TwoHiddenLayers(x, y, num_neurons, num_classes, iterations, learning_rate, a
 
     # Itera por numero de epocas
     for i in range(0, iterations):
-
-        print('Época: {}'.format(i))
 
         for j in range(0, dataSet_size, minibatch_size):
 

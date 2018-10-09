@@ -36,8 +36,6 @@ def Mini_Batch_Gradient_Descent(x, y, thetas, learning_rate, iterations, y_real)
         #Armazena o numero de acertos da iteracao
         acertos = 0
 
-        print('Época: {}'.format(i))
-
         for j in range(0, dataSet_size, minibatch_size):
 
             # Calcula as novas matrizes utilizadas para atualizar theta
