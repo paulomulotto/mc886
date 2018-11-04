@@ -40,7 +40,7 @@ def best_original_kmeans(number_clusters, data):
     for i in range(1, number_clusters + 1):
 
         '''Utiliza K-means para clusterizar os dados'''
-        kmeans = km(n_clusters=i, n_jobs=-1, n_init=10)
+        kmeans = km(n_clusters=i, n_jobs=-1, n_init=20, verbose=False, tol=0.000001)
         kmeans.fit(X=data)
 
         '''Recupera a quantidade de clusters e o custo para cada clusterizacao'''
@@ -75,7 +75,7 @@ def best_mini_batch_kmeans(number_clusters, data):
     for i in range(1, number_clusters + 1):
 
         '''Utiliza Mini-Batch K-means para clusterizar os dados'''
-        mini_kmeans = minikm(n_clusters=i, init_size=(i + 1))
+        mini_kmeans = minikm(n_clusters=i, init_size=(i + 1), tol=0.000001, n_init=100, reassignment_ratio=1)
         mini_kmeans.fit(X=data)
 
         '''Recupera a quantidade de clusters e o custo para cada clusterizacao'''
