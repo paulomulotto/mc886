@@ -103,7 +103,7 @@ def grafico_erro_x_cluster(clusters, cost_clusters):
     plt.show()
 
 
-''' Imprime informações sobre os resultados do DBSCAN '''
+''' Imprime informações sobre os resultados '''
 def informacoes(labels, data):
     
     print("Número de Clusters:")
