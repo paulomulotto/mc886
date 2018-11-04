@@ -6,10 +6,10 @@ from Clustering import *
 def main():
 
     '''Nome do arquivo csv com os dados (Bag of Words)'''
-    name = 'bags.csv'
+    name = 'health-dataset/bags.csv'
 
     '''Nome do arquivo csv com os dados (Word2Vec)'''
-    # name = '/home/vaoki/ec/mc886/mc886/Trabalho3/health-dataset/word2vec.csv'
+    # name = 'health-dataset/word2vec.csv'
 
     '''Recebe os dados presentes no csv'''
     data = le_dados(name=name)
@@ -18,10 +18,10 @@ def main():
     '''------------------------------------------DEFINE ALGORITMOS-----------------------------------------------'''
     '''----------------------------------------------------------------------------------------------------------'''
     #Numero de clusters
-    number_clusters = 200
+    number_clusters = 50
 
     #Mini_Batch Kmeans = 0 / Batch Kmeans = 1 / Birch = 2
-    algorithm = 3
+    algorithm = 0
 
     #Utiliza PCA
     pca = False
@@ -46,6 +46,7 @@ def main():
         labels = best_model.labels_
 
         print("Número de clusters com o melhor resultado: {}".format(best_cluster))
+        grafico_erro_x_cluster(clusters=clusters, cost_clusters=cost_clusters)
 
         '''Calcula uma metrica de verificacao de confiabilidade com o metodo Silhouette Coeficient '''
 
@@ -53,20 +54,29 @@ def main():
         score = metrics.silhouette_score(data, labels=labels, metric='euclidean')
         print(score)
 
+        samples = samples_per_clusters(number_clusters=number_clusters, labels=labels)
+
+        count = 0
+        for i in samples:
+            count += len(i)
+            print(i)
+
+        print('tamanho: {}'.format(count))
+
     elif(algorithm == 1):
 
         print('Kmeans')
 
         '''Utiliza K-means para clusterizar os dados'''
-        kmeans = km(n_clusters=number_clusters, n_jobs=-1, n_init=50, verbose=False, tol=0.000001).fit(X=data)
-        fit_transform = kmeans.fit_transform(X=data)
-        labels = kmeans.labels_
+        # kmeans = km(n_clusters=number_clusters, n_jobs=-1, n_init=50, verbose=False, tol=0.000001).fit(X=data)
+        # fit_transform = kmeans.fit_transform(X=data)
+        # labels = kmeans.labels_
 
-        print(fit_transform[0])
+        clusters, cost_clusters, best_model, best_cluster = best_original_kmeans(number_clusters, data)
+        labels = best_model.labels_
+        print("Número de clusters com o melhor resultado: {}".format(best_cluster))
 
-        # clusters, cost_clusters, best_model, best_cluster = best_original_kmeans(number_clusters, data)
-        # labels = best_model.labels_
-        # print("Número de clusters com o melhor resultado: {}".format(best_cluster))
+        grafico_erro_x_cluster(clusters=clusters, cost_clusters=cost_clusters)
 
         '''Calcula uma metrica de verificacao de confiabilidade com o metodo Silhouette Coeficient '''
 
@@ -74,11 +84,14 @@ def main():
         score = metrics.silhouette_score(data, labels=labels, metric='euclidean')
         print('Coeficiente de Silhueta score: {}'.format(score))
 
-        samples = samples_per_clusters(number_clusters=number_clusters, labels=labels)
-
-        for i in samples:
-            print(i)
-
+        # samples = samples_per_clusters(number_clusters=number_clusters, labels=labels)
+        #
+        # count = 0
+        # for i in samples:
+        #     count += len(i)
+        #     print(i)
+        #
+        # print('tamanho: {}'.format(count))
 
     elif(algorithm == 2):
 
