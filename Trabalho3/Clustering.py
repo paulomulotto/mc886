@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans as km
@@ -8,6 +9,8 @@ from sklearn import metrics
 import time
 from sklearn.decomposition import PCA
 from pyclustering.cluster import kmeans
+from sklearn.cluster import DBSCAN
+from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import davies_bouldin_score
 
 '''Dado um arquivo csv (name), le os dados (normalizados) presentes nela'''
@@ -98,6 +101,54 @@ def grafico_erro_x_cluster(clusters, cost_clusters):
     plt.xlabel("Número de Clusters")
     plt.ylabel("Erro para cada Cluster")
     plt.show()
+
+
+''' Imprime informações sobre os resultados do DBSCAN '''
+def informacoes(labels, data):
+    
+    print("Número de Clusters:")
+    print(max(labels))
+
+    '''' Imprime o número de elementos por cluster '''
+    
+    ''' Separa o arquivo health.txt em linhas '''
+    lines = [line.rstrip('\n') for line in open('health.txt')]
+
+    print("Imprimindo Tweets em arquivos separados")
+    
+    '''Cria um arquivo com informações do teste '''
+    nome_arquivo_info = "tweets/info.txt"
+    arquivo_info = open(nome_arquivo_info,"w")
+    arquivo_info.write("Número de elementos por clusters ( " + str(max(labels)) + " ):\n")
+
+    for i in range(-1,max(labels)):
+        tam_cluster = len(np.where(labels==i)[0])
+        print("cluster" + str(i) + " com " + str(tam_cluster) + " tweets.")
+        
+        arquivo_info.write("cluster" + str(i) + " com " + str(tam_cluster) + " tweets.\n")
+
+        ''' Imprime as frases de cada cluster em um arquivo separado '''
+        
+        nome_arquivo = "tweets/cluster" + str(i) + ".txt"
+        file = open(nome_arquivo,"w")
+        file.write(nome_arquivo + "\n")
+        file.write("Numero de tweets: " + str(tam_cluster) + "\n\n")
+        file.write("Tweets:\n")
+        for j in range(0, tam_cluster):
+            file.write(lines[j] + "\n")
+        file.close()
+
+
+    '''Calcula uma metrica de verificacao de confiabilidade com o metodo Silhouette Coeficient '''
+
+    '''Calcula o score'''
+    score = metrics.silhouette_score(data, labels=labels, metric='euclidean')
+    print(score)
+    arquivo_info.write(str(score))
+    arquivo_info.close()
+
+
+
 
 
 '''Funcao que armazena, para cada cluster, os twites pertencentes a ele'''
