@@ -127,15 +127,18 @@ def informacoes(labels, data):
         
         arquivo_info.write("cluster" + str(i) + " com " + str(tam_cluster) + " tweets.\n")
 
-        ''' Imprime as frases de cada cluster em um arquivo separado '''
+        ''' Imprime os tweets de cada cluster em um arquivo separado para cada cluster'''
         
         nome_arquivo = "tweets/cluster" + str(i) + ".txt"
         file = open(nome_arquivo,"w")
         file.write(nome_arquivo + "\n")
         file.write("Numero de tweets: " + str(tam_cluster) + "\n\n")
         file.write("Tweets:\n")
-        for j in range(0, tam_cluster):
-            file.write(lines[j] + "\n")
+
+        ''' Verifica qual tweet pertence ao cluster e insere no arquivo do cluster a qual o tweet pertence. '''
+        for j in range(0, len(lines)):
+            if labels[j] == i:
+                file.write(lines[j] + "\n")    
         file.close()
 
 

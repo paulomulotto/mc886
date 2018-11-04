@@ -63,6 +63,7 @@ def main():
         labels = kmeans.labels_
 
         print(fit_transform[0])
+        informacoes(labels, data)
 
         # clusters, cost_clusters, best_model, best_cluster = best_original_kmeans(number_clusters, data)
         # labels = best_model.labels_
@@ -98,7 +99,7 @@ def main():
 
         print('DBSCAN')
 
-        clusters = DBSCAN(eps=0.99, min_samples=4, metric='euclidean', n_jobs=-1, p='float').fit(data)
+        clusters = DBSCAN(eps=0.80, min_samples=3, metric='euclidean', n_jobs=-1, p='float').fit(data)
 
         # labels = clusters.labels_
 
