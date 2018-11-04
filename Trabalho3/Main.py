@@ -1,10 +1,12 @@
+# -*- coding: utf-8 -*-
 from Clustering import *
+
 
 '''Funcao Main'''
 def main():
 
     '''Nome do arquivo csv com os dados (Bag of Words)'''
-    name = '/home/vaoki/ec/mc886/mc886/Trabalho3/health-dataset/bags.csv'
+    name = 'bags.csv'
 
     '''Nome do arquivo csv com os dados (Word2Vec)'''
     # name = '/home/vaoki/ec/mc886/mc886/Trabalho3/health-dataset/word2vec.csv'
@@ -19,14 +21,14 @@ def main():
     number_clusters = 100
 
     #Mini_Batch Kmeans = 0 / Batch Kmeans = 1 / Birch = 2
-    algorithm = 1
+    algorithm = 3
 
     #Utiliza PCA
-    pca = True
+    pca = False
 
     if(pca == True):
 
-        print('PCA')
+        print('PCA')    
 
         '''Utilzia o PCA para redimensionar os dados'''
         data = PCA(n_components=0.95, svd_solver='full').fit_transform(data)
@@ -82,6 +84,33 @@ def main():
         '''Calcula o score'''
         score = metrics.silhouette_score(data, labels=labels, metric='euclidean')
         print(score)
+
+
+    elif (algorithm == 3):
+
+        print('DBSCAN')
+
+        clusters = DBSCAN(eps=0.99, min_samples=4, metric='euclidean', n_jobs=-1, p='float').fit(data)
+
+        # labels = clusters.labels_
+
+        informacoes(clusters.labels_, data)
+
+        # '''Calcula uma metrica de verificacao de confiabilidade com o metodo Silhouette Coeficient '''
+
+        # '''Calcula o score'''
+        # score = metrics.silhouette_score(data, labels=labels, metric='euclidean')
+        # print(score)
+
+        #Teste feito:
+        # Score: -0,11
+        # t = cluster.DBSCAN(eps=20, min_samples=5, metric='euclidean', n_jobs=-1, p='float').fit(data)
+        # np.where(t.labels_==[0,1,3,4,5,6,7,8,9,10][0])
+        # para ver tamanho dos clusters: len(np.where(t.labels_==[-1,0,1,3,4,5,6,7,8,9,10][0])[0])
+        # max(t.labels_)
+
+        
+
 
 
 if __name__ == '__main__':
