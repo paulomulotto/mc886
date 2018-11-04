@@ -8,12 +8,13 @@ from sklearn import metrics
 import time
 from sklearn.decomposition import PCA
 from pyclustering.cluster import kmeans
+from sklearn.metrics import davies_bouldin_score
 
 '''Dado um arquivo csv (name), le os dados (normalizados) presentes nela'''
 def le_dados(name):
 
     # Le os dados do arquivo csv
-    data = pd.read_csv(name)
+    data = pd.read_csv(name, header=None)
 
     # Obtem os dados do csv
     data = data.values
@@ -97,3 +98,15 @@ def grafico_erro_x_cluster(clusters, cost_clusters):
     plt.xlabel("Número de Clusters")
     plt.ylabel("Erro para cada Cluster")
     plt.show()
+
+
+'''Funcao que armazena, para cada cluster, os twites pertencentes a ele'''
+def samples_per_clusters(number_clusters, labels):
+
+    samples_per_clusters = []
+
+    for i in range(0, number_clusters):
+        aux = [(j + 1) for j in np.where(labels == (i + 1))[0].tolist()]
+        samples_per_clusters.append(aux)
+
+    return samples_per_clusters
