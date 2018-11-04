@@ -56,7 +56,7 @@ def main():
         print('Kmeans')
 
         '''Utiliza K-means para clusterizar os dados'''
-        kmeans = km(n_clusters=number_clusters, n_jobs=-1, n_init=20, verbose=False, tol=0.000001).fit(X=data)
+        kmeans = km(n_clusters=number_clusters, n_jobs=-1, n_init=50, verbose=False, tol=0.000001).fit(X=data)
         fit_transform = kmeans.fit_transform(X=data)
         labels = kmeans.labels_
 
