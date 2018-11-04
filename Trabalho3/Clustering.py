@@ -11,6 +11,7 @@ from sklearn.decomposition import PCA
 from pyclustering.cluster import kmeans
 from sklearn.cluster import DBSCAN
 from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import davies_bouldin_score
 
 '''Dado um arquivo csv (name), le os dados (normalizados) presentes nela'''
 def le_dados(name):
@@ -150,3 +151,13 @@ def informacoes(labels, data):
 
 
 
+'''Funcao que armazena, para cada cluster, os twites pertencentes a ele'''
+def samples_per_clusters(number_clusters, labels):
+
+    samples_per_clusters = []
+
+    for i in range(0, number_clusters):
+        aux = [(j + 1) for j in np.where(labels == (i + 1))[0].tolist()]
+        samples_per_clusters.append(aux)
+
+    return samples_per_clusters
