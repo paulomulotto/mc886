@@ -75,7 +75,7 @@ def best_mini_batch_kmeans(number_clusters, data):
     for i in range(1, number_clusters + 1):
 
         '''Utiliza Mini-Batch K-means para clusterizar os dados'''
-        mini_kmeans = minikm(n_clusters=i, init_size=(i + 1), tol=0.000001, n_init=100, reassignment_ratio=1)
+        mini_kmeans = minikm(n_clusters=i, init_size=(i + 1), n_init=100)
         mini_kmeans.fit(X=data)
 
         '''Recupera a quantidade de clusters e o custo para cada clusterizacao'''
@@ -112,7 +112,8 @@ def informacoes(labels, data):
     '''' Imprime o número de elementos por cluster '''
     
     ''' Separa o arquivo health.txt em linhas '''
-    lines = [line.rstrip('\n') for line in open('health.txt')]
+    # lines = [line.rstrip('\n') for line in open('health.txt')]
+    lines = [line.rstrip('\n') for line in open('health-dataset/health.txt')]
 
     print("Imprimindo Tweets em arquivos separados")
     
@@ -136,7 +137,7 @@ def informacoes(labels, data):
         file.write("Tweets:\n")
 
         ''' Verifica qual tweet pertence ao cluster e insere no arquivo do cluster a qual o tweet pertence. '''
-        for j in range(0, len(lines)):
+        for j in range(0, len(labels)):
             if labels[j] == i:
                 file.write(lines[j] + "\n")    
         file.close()
