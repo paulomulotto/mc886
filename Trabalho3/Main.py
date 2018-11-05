@@ -18,17 +18,18 @@ def main():
     number_clusters = 250
 
     #Mini_Batch Kmeans = 0 / Batch Kmeans = 1 / Birch = 2 / DBSCAN = 3
+
     algorithm = 1
 
     #Utiliza PCA
-    pca = False
+    pca = True
 
     if(pca == True):
 
         print('PCA')    
 
         '''Utilzia o PCA para redimensionar os dados'''
-        data = PCA(n_components=0.90, svd_solver='full').fit_transform(data)
+        data = PCA(n_components=0.99, svd_solver='full').fit_transform(data)
 
     print(data.shape)
 
@@ -99,26 +100,14 @@ def main():
     elif (algorithm == 3):
 
         print('DBSCAN')
+        ''' Define a distância máxima do ponto vizinho '''
+        max_dist = 0.9
+        ''' Define o número mínimo de pontos em uma vizinhança para ser considerado um cluster '''
+        min_samples = 5
 
-        clusters = DBSCAN(eps=0.80, min_samples=3, metric='euclidean', n_jobs=-1, p='float').fit(data)
-
-        # labels = clusters.labels_
+        clusters = DBSCAN(eps=max_dist, min_samples=min_samples, metric='euclidean', n_jobs=-1, p='float').fit(data)
 
         informacoes(clusters.labels_, data)
-
-        # '''Calcula uma metrica de verificacao de confiabilidade com o metodo Silhouette Coeficient '''
-
-        # '''Calcula o score'''
-        # score = metrics.silhouette_score(data, labels=labels, metric='euclidean')
-        # print(score)
-
-        #Teste feito:
-        # Score: -0,11
-        # t = cluster.DBSCAN(eps=20, min_samples=5, metric='euclidean', n_jobs=-1, p='float').fit(data)
-        # np.where(t.labels_==[0,1,3,4,5,6,7,8,9,10][0])
-        # para ver tamanho dos clusters: len(np.where(t.labels_==[-1,0,1,3,4,5,6,7,8,9,10][0])[0])
-        # max(t.labels_)
-
         
 
 

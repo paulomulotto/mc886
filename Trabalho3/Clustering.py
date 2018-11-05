@@ -103,7 +103,7 @@ def grafico_erro_x_cluster(clusters, cost_clusters):
     plt.show()
 
 
-''' Imprime informações sobre os resultados do DBSCAN '''
+''' Imprime informações sobre os resultados '''
 def informacoes(labels, data):
     
     print("Número de Clusters:")
@@ -112,7 +112,6 @@ def informacoes(labels, data):
     '''' Imprime o número de elementos por cluster '''
     
     ''' Separa o arquivo health.txt em linhas '''
-    # lines = [line.rstrip('\n') for line in open('health.txt')]
     lines = [line.rstrip('\n') for line in open('health-dataset/health.txt')]
 
     print("Imprimindo Tweets em arquivos separados")
