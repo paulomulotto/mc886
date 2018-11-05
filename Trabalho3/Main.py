@@ -20,7 +20,7 @@ def main():
     #Numero de clusters
     number_clusters = 50
 
-    #Mini_Batch Kmeans = 0 / Batch Kmeans = 1 / Birch = 2
+    #Mini_Batch Kmeans = 0 / Batch Kmeans = 1 / Birch = 2 / DBSCAN = 3
     algorithm = 3
 
     #Utiliza PCA
@@ -112,8 +112,12 @@ def main():
     elif (algorithm == 3):
 
         print('DBSCAN')
+        ''' Define a distância máxima do ponto vizinho '''
+        max_dist = 0.9
+        ''' Define o número mínimo de pontos em uma vizinhança para ser considerado um cluster '''
+        min_samples = 5
 
-        clusters = DBSCAN(eps=0.9, min_samples=5, metric='euclidean', n_jobs=-1, p='float').fit(data)
+        clusters = DBSCAN(eps=max_dist, min_samples=min_samples, metric='euclidean', n_jobs=-1, p='float').fit(data)
 
         informacoes(clusters.labels_, data)
         

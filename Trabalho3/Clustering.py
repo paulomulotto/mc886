@@ -112,7 +112,7 @@ def informacoes(labels, data):
     '''' Imprime o número de elementos por cluster '''
     
     ''' Separa o arquivo health.txt em linhas '''
-    lines = [line.rstrip('\n') for line in open('health.txt')]
+    lines = [line.rstrip('\n') for line in open('health-dataset/health.txt')]
 
     print("Imprimindo Tweets em arquivos separados")
     
